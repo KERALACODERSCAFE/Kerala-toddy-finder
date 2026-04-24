@@ -1,5 +1,5 @@
 """
-URL configuration for toddy_shop_backend project.
+URL configuration for Toddy Shop (Backend) project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/5.2/topics/http/urls/
@@ -18,7 +18,21 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
+# Admin Site
+admin.site.site_header = "Toddy Shop Administration"
+admin.site.index_title = "Apps and Services"
+admin.site.site_title = "Toddy Shop"
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("api/v1/app/", include("app.urls")),
+    path(
+        "api/v1/",
+        include(
+            [
+                path("", include("core.urls"), name="core"),
+                path("", include("shops.urls"), name="shops"),
+            ]
+        ),
+    ),
 ]
