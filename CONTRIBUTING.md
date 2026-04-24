@@ -13,20 +13,32 @@ Thank you for your interest in contributing to the Kerala Toddy Finder project! 
 1. Clone the repository:
    ```bash
    git clone https://github.com/KERALACODERSCAFE/Kerala-toddy-finder.git
-   cd Kerala-toddy-finder
+   cd Kerala-toddy-finder/toddy_shop_backend
    ```
-2. Create a virtual environment:
+
+2. Install UV:
+   Install uv based on your platform by following the instructions here: https://docs.astral.sh/uv/getting-started/installation
+
+3. Create a virtual environment:
    ```bash
-   python -m venv env
-   source env/bin/activate  # On Windows use `env\Scripts\activate`
+   uv venv
    ```
-3. Install the requirements:
+
+4. Activate the virtual environment:
    ```bash
-   pip install -r requirements.txt
+   source .venv/bin/activate  # macOS/Linux
+
+   # On Windows use `.venv\Scripts\activate`
    ```
-4. Run the server:
+
+5. Install dependencies:
    ```bash
-   python manage.py runserver
+   uv sync
+   ```
+
+6. Run the development server:
+   ```bash
+   uv run python manage.py runserver
    ```
 
 ### Node.js Frontend
