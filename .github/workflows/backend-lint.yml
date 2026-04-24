@@ -1,0 +1,32 @@
+name: Backend Lint (PEP 8)
+
+on:
+  push:
+    paths:
+      - 'toddy_shop_backend/**'
+  pull_request:
+    paths:
+      - 'toddy_shop_backend/**'
+
+jobs:
+  flake8:
+    name: PEP 8 – flake8
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install flake8
+        run: pip install flake8 flake8-django
+
+      - name: Run flake8
+        run: |
+          flake8 toddy_shop_backend/ \
+            --max-line-length=119 \
+            --exclude=toddy_shop_backend/migrations,toddy_shop_backend/venv \
+            --statistics
