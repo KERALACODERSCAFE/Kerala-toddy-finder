@@ -5,8 +5,10 @@ on:
     paths:
       - 'toddy_shop_frontend/**'
   pull_request:
+    branches: [main]
     paths:
       - 'toddy_shop_frontend/**'
+  workflow_dispatch:
 
 jobs:
   eslint:

@@ -5,8 +5,10 @@ on:
     paths:
       - 'toddy_shop_backend/**'
   pull_request:
+    branches: [main]
     paths:
       - 'toddy_shop_backend/**'
+  workflow_dispatch:
 
 jobs:
   flake8:
