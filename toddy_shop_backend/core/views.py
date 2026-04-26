@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions, viewsets
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from rest_framework.throttling import AnonRateThrottle, UserRateThrottle
 from drf_spectacular.utils import extend_schema
 
 from shared.permissions import IsAdminOrReadOnly
@@ -39,6 +40,16 @@ from .serializers import (
     UserSerializer,
 )
 
+
+# ---------------------------------------------------------------------------
+# Rate Limiting
+# ---------------------------------------------------------------------------
+class LoginRateThrottle(AnonRateThrottle):
+    rate = "5/minute"
+
+
+
+
 # ---------------------------------------------------------------------------
 # Auth
 # ---------------------------------------------------------------------------
@@ -46,6 +57,7 @@ from .serializers import (
 
 @extend_schema(tags=["Authentication"])
 class RegisterView(generics.CreateAPIView):
+    throttle_classes = [LoginRateThrottle]
     serializer_class = RegisterSerializer
     permission_classes = [permissions.AllowAny]
 
@@ -60,10 +72,13 @@ class RegisterView(generics.CreateAPIView):
         )
 
 
+
+
 @extend_schema(tags=["Authentication"])
 class LoginView(TokenObtainPairView):
     """Returns JWT access + refresh tokens."""
-
+    throttle_classes = [LoginRateThrottle]
+    
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         try:
