@@ -1,4 +1,3 @@
-from django.db.models import Avg
 from rest_framework import serializers
 
 from core.models import Facility, HygieneTag
@@ -137,8 +136,8 @@ class ToddyShopListSerializer(serializers.ModelSerializer):
     place = PlaceReadSerializer(read_only=True)
     category = ShopCategorySerializer(read_only=True)
     status = StatusSerializer(read_only=True)
-    avg_rating = serializers.SerializerMethodField()
-    review_count = serializers.IntegerField(source="reviews.count", read_only=True)
+    avg_rating = serializers.FloatField(read_only=True)
+    review_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = ToddyShop
@@ -152,11 +151,6 @@ class ToddyShopListSerializer(serializers.ModelSerializer):
             "review_count",
             "created_at",
         ]
-
-    def get_avg_rating(self, obj):
-        result = obj.ratings.aggregate(avg=Avg("score"))
-        avg = result.get("avg")
-        return round(avg, 1) if avg is not None else None
 
 
 class ToddyShopDetailSerializer(serializers.ModelSerializer):

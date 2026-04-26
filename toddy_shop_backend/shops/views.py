@@ -1,3 +1,4 @@
+from django.db.models import Avg, Count
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
@@ -36,7 +37,12 @@ class ToddyShopViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         qs = ToddyShop.objects.select_related(
             "place__district", "category", "status", "owner__role"
-        ).prefetch_related("facilities", "hygiene_tags")
+        ).prefetch_related(
+            "facilities", "hygiene_tags"
+        ).annotate(
+            avg_rating=Avg("ratings__score"),
+            review_count=Count("reviews", distinct=True),
+        )
 
         user = self.request.user
         if not (user.is_authenticated and user.is_admin):
