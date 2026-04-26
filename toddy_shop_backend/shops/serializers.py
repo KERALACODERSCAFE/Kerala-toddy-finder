@@ -139,6 +139,7 @@ class ToddyShopListSerializer(serializers.ModelSerializer):
     status = StatusSerializer(read_only=True)
     avg_rating = serializers.SerializerMethodField()
     review_count = serializers.IntegerField(source="reviews.count", read_only=True)
+    distance_km = serializers.FloatField(read_only=True, default=None)
 
     class Meta:
         model = ToddyShop
@@ -150,6 +151,7 @@ class ToddyShopListSerializer(serializers.ModelSerializer):
             "status",
             "avg_rating",
             "review_count",
+            "distance_km",
             "created_at",
         ]
 

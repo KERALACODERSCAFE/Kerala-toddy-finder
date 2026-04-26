@@ -7,6 +7,7 @@ from drf_spectacular.utils import extend_schema
 from core.models import Status
 from shared.permissions import IsAdmin, IsShopOwner, IsShopOwnerOrAdmin
 from shared.responses import APIResponse
+from .geo_utils import filter_shops_by_distance
 
 from .models import (
     ShopFoodItem,
@@ -75,6 +76,35 @@ class ToddyShopViewSet(viewsets.ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         qs = self.filter_queryset(self.get_queryset())
+
+        # Geo-based proximity filter
+        params = request.query_params
+        lat = params.get("lat")
+        lng = params.get("lng")
+        if lat and lng:
+            try:
+                lat = float(lat)
+                lng = float(lng)
+                radius = float(params.get("radius", 10))
+            except ValueError:
+                return APIResponse(
+                    data=None,
+                    message="Invalid lat, lng or radius — must be numeric.",
+                    status=400,
+                    is_success=False,
+                )
+            nearby = filter_shops_by_distance(qs, lat, lng, radius)
+            for shop, distance in nearby:
+                shop.distance_km = distance
+            shops = [shop for shop, _ in nearby]
+            data = ToddyShopListSerializer(
+                shops, many=True, context={"request": request}
+            ).data
+            return APIResponse(
+                data=data,
+                message=f"Shops within {radius}km retrieved successfully.",
+            )
+
         page = self.paginate_queryset(qs)
         if page is not None:
             data = ToddyShopListSerializer(
