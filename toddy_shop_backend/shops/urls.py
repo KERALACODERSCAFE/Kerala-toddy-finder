@@ -52,4 +52,15 @@ urlpatterns = list(router.urls) + [
         views.ShopRatingView.as_view(),
         name="shop-ratings",
     ),
+    # Operating Hours
+    path(
+        "shops/<int:shop_pk>/hours/",
+        views.ShopOperatingHoursView.as_view(),
+        name="shop-hours",
+    ),
+    path(
+        "shops/<int:shop_pk>/hours/<int:pk>/",
+        views.ShopOperatingHoursDetailView.as_view(),
+        name="shop-hours-detail",
+    ),
 ]

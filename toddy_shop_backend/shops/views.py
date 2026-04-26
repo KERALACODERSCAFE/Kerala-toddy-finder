@@ -12,6 +12,7 @@ from .models import (
     ShopFoodItem,
     ShopLicense,
     ShopMedia,
+    ShopOperatingHours,
     ShopRating,
     ShopReview,
     ToddyShop,
@@ -20,6 +21,7 @@ from .serializers import (
     ShopFoodItemSerializer,
     ShopLicenseSerializer,
     ShopMediaSerializer,
+    ShopOperatingHoursSerializer,
     ShopRatingSerializer,
     ShopReviewSerializer,
     ToddyShopDetailSerializer,
@@ -453,3 +455,97 @@ class ShopRatingView(APIView):
             message="Rating submitted." if created else "Rating updated.",
             status=201 if created else 200,
         )
+
+
+# ---------------------------------------------------------------------------
+# Shop Operating Hours
+# ---------------------------------------------------------------------------
+
+
+@extend_schema(tags=["Shops"])
+class ShopOperatingHoursView(APIView):
+
+    def get_permissions(self):
+        if self.request.method == "GET":
+            return [permissions.AllowAny()]
+        return [IsShopOwnerOrAdmin()]
+
+    def _get_shop(self, shop_pk):
+        return get_object_or_404(ToddyShop, pk=shop_pk)
+
+    def _check_ownership(self, request, shop):
+        if request.user.is_shop_owner and shop.owner != request.user:
+            return APIResponse(
+                data=None,
+                message="You can only manage hours for your own shops.",
+                status=403,
+                is_success=False,
+            )
+        return None
+
+    def get(self, request, shop_pk):
+        shop = self._get_shop(shop_pk)
+        hours = shop.operating_hours.all()
+        return APIResponse(
+            data=ShopOperatingHoursSerializer(hours, many=True).data,
+            message="Operating hours retrieved.",
+        )
+
+    def post(self, request, shop_pk):
+        shop = self._get_shop(shop_pk)
+        denied = self._check_ownership(request, shop)
+        if denied:
+            return denied
+        serializer = ShopOperatingHoursSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        day = serializer.validated_data["day"]
+        hours, created = ShopOperatingHours.objects.update_or_create(
+            shop=shop,
+            day=day,
+            defaults={
+                "open_time": serializer.validated_data.get("open_time"),
+                "close_time": serializer.validated_data.get("close_time"),
+                "is_closed": serializer.validated_data.get("is_closed", False),
+            },
+        )
+        return APIResponse(
+            data=ShopOperatingHoursSerializer(hours).data,
+            message="Operating hours saved." if created else "Operating hours updated.",
+            status=201 if created else 200,
+        )
+
+
+@extend_schema(tags=["Shops"])
+class ShopOperatingHoursDetailView(APIView):
+    permission_classes = [IsShopOwnerOrAdmin]
+
+    def _get_hours(self, shop_pk, pk):
+        return get_object_or_404(ShopOperatingHours, pk=pk, shop_id=shop_pk)
+
+    def _check_ownership(self, request, hours):
+        if request.user.is_shop_owner and hours.shop.owner != request.user:
+            return APIResponse(
+                data=None,
+                message="You can only manage hours for your own shops.",
+                status=403,
+                is_success=False,
+            )
+        return None
+
+    def patch(self, request, shop_pk, pk):
+        hours = self._get_hours(shop_pk, pk)
+        denied = self._check_ownership(request, hours)
+        if denied:
+            return denied
+        serializer = ShopOperatingHoursSerializer(hours, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return APIResponse(data=serializer.data, message="Operating hours updated.")
+
+    def delete(self, request, shop_pk, pk):
+        hours = self._get_hours(shop_pk, pk)
+        denied = self._check_ownership(request, hours)
+        if denied:
+            return denied
+        hours.delete()
+        return APIResponse(data=None, message="Operating hours deleted.")
