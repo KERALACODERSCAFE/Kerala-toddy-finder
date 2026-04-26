@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* Colors from DESIGN.md */
+  --color-surface: #fcf9f8;
+  --color-surface-dim: #dcd9d9;
+  --color-surface-container-low: #f6f3f2;
+  --color-surface-container: #f0eded;
+  --color-surface-container-high: #eae7e7;
+  --color-on-surface: #1b1c1c;
+  --color-on-surface-variant: #414941;
+  --color-outline: #717970;
+  --color-outline-variant: #c0c9be;
+
+  --color-primary: #003e1c;
+  --color-on-primary: #ffffff;
+  --color-primary-container: #1e5631;
+  --color-on-primary-container: #8fca9b;
+
+  --color-secondary: #855300;
+  --color-on-secondary: #ffffff;
+  --color-secondary-container: #ffb148;
+
+  --color-tertiary: #383529;
+  --color-tertiary-fixed: #e9e2d0;
+
+  --color-error: #ba1a1a;
+  --color-error-container: #ffdad6;
+
+  --color-cream: #fdf6e3;
+  --color-cream-border: #e9e2d0;
+
+  /* Fonts */
+  --font-heading: "Cormorant Garamond", serif;
+  --font-body: "Nunito", sans-serif;
+}
+
+/* Leaf chip shape */
+.leaf-chip {
+  border-radius: 100px 0 100px 0;
+}
+
+/* Palm silhouette mask */
+.palm-silhouette {
+  mask-image: linear-gradient(to bottom, black, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+/* How It Works animations */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes drawLine {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes hiwPulse {
+  0%, 100% { transform: translateX(-50%) scale(1); opacity: 1; }
+  50% { transform: translateX(-50%) scale(2); opacity: 0.3; }
+}
+
+.hiw-fade-up {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.7s ease-out forwards;
+}
+
+.hiw-header-fade {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.8s ease-out 0.2s forwards;
+}
+
+.hiw-line-draw {
+  width: 0;
+  animation: drawLine 1.8s ease-in-out 0.6s forwards;
+}
+
+.hiw-bottom-fade {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeUp 0.8s ease-out 1.6s forwards;
+}
+
+.hiw-pulse-dot {
+  animation: hiwPulse 1.5s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(8px); }
+}
+
+.hero-scroll-arrow {
+  animation: scrollBounce 1.6s ease-in-out infinite;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--color-surface);
+  color: var(--color-on-surface);
+}

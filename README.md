@@ -44,17 +44,91 @@ However, there is no centralized platform to discover the best toddy shops based
 
 ## 🏗️ Tech Stack
 
-| Layer    | Technology        |
-| -------- | ----------------- |
-| Backend  | Django + DRF      |
-| Frontend | Next.js (Planned) |
-| Database | PostgreSQL        |
+| Layer    | Technology          |
+| -------- | ------------------- |
+| Backend  | Django + DRF        |
+| Frontend | Next.js + Tailwind  |
+| Database | PostgreSQL          |
 
 ---
 
 ## 📂 Project Structure
 
-```id="proj_struct_updated_001"
+```
+toddy_shop_frontend/
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx           # Root layout — fonts, navbar, footer, mobile nav
+│   │   ├── page.tsx             # Landing page
+│   │   ├── explore/
+│   │   │   └── page.tsx         # Map-based shop explorer
+│   │   ├── community/
+│   │   │   └── page.tsx         # Heritage hub — stories, dish gallery, CTA
+│   │   ├── shops/
+│   │   │   └── [id]/page.tsx    # Individual shop detail
+│   │   └── admin/
+│   │       └── page.tsx         # Admin panel (placeholder)
+│   ├── components/
+│   │   ├── layout/
+│   │   │   ├── Navbar.tsx
+│   │   │   ├── Footer.tsx
+│   │   │   └── MobileNav.tsx
+│   │   ├── home/
+│   │   │   ├── HeroSection.tsx
+│   │   │   ├── FeaturedShops.tsx
+│   │   │   ├── DistrictExplorer.tsx
+│   │   │   ├── SignatureFlavors.tsx
+│   │   │   ├── HowItWorks.tsx
+│   │   │   └── CTASection.tsx
+│   │   └── ui/
+│   │       ├── ShopCard.tsx
+│   │       └── LeafChip.tsx
+│   └── lib/
+│       ├── constants.ts         # Shops, districts, dishes, stats
+│       ├── explore-data.ts      # Map markers, recommended shops
+│       └── community-data.ts    # Stories, dish gallery, connoisseurs
+├── next.config.ts
+├── tailwind.config.ts
+└── package.json
+```
+
+### Frontend Pages
+
+| Route | Description |
+|-------|-------------|
+| `/` | Landing page — hero with search, featured shops, district explorer, signature flavors, animated how-it-works, CTA |
+| `/explore` | Interactive map with floating search, shop markers, side drawer with recommendations |
+| `/community` | Heritage hub — stories feed, bento dish gallery, top connoisseurs leaderboard, join CTA |
+| `/shops/[id]` | Individual shop detail (placeholder, ready for API integration) |
+| `/admin` | Admin panel (placeholder) |
+
+### Design System
+
+The frontend follows the project's **Tactile Minimalism** design language:
+
+| Token | Value |
+|-------|-------|
+| Primary | Deep Forest Green `#003e1c` / `#1e5631` |
+| Accent | Warm Ochre `#ffb148` / `#855300` |
+| Surface | Earthy Cream `#fdf6e3` |
+| Heading font | Cormorant Garamond (serif, editorial) |
+| Body font | Nunito (rounded, modern) |
+| Icons | Material Symbols Outlined |
+
+### Frontend Setup
+
+```bash
+cd toddy_shop_frontend
+npm install
+npm run dev       # http://localhost:3000
+npm run build     # production build
+```
+
+---
+
+## 📂 Backend Structure
+
+```
 toddy_shop_backend/
 ├── manage.py
 ├── pyproject.toml
@@ -142,10 +216,15 @@ We welcome all contributors ❤️
 
 ### 🔹 Steps
 
-1. Fork the repository
-2. Create a feature branch
-3. Pick an issue
-4. Submit a Pull Request
+1. Fork the repository on GitHub
+2. Clone your fork locally
+3. Create a feature branch: `git checkout -b feature/your-feature-name`
+4. Pick an open issue to work on
+5. Make your changes and commit: `git commit -m "feat: your message"`
+6. Push to your fork: `git push origin feature/your-feature-name`
+7. Open a Pull Request to `KERALACODERSCAFE/Kerala-toddy-finder:main`
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for full setup instructions.
 
 ---
 
