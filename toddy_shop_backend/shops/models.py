@@ -140,3 +140,30 @@ class ShopRating(models.Model):
 
     def __str__(self):
         return f"{self.user.username} – {self.shop.name} – {self.rating_type.name}: {self.score}"
+
+
+class ShopOperatingHours(models.Model):
+    class Day(models.IntegerChoices):
+        MONDAY = 0, "Monday"
+        TUESDAY = 1, "Tuesday"
+        WEDNESDAY = 2, "Wednesday"
+        THURSDAY = 3, "Thursday"
+        FRIDAY = 4, "Friday"
+        SATURDAY = 5, "Saturday"
+        SUNDAY = 6, "Sunday"
+
+    shop = models.ForeignKey(ToddyShop, on_delete=models.CASCADE, related_name="operating_hours")
+    day = models.IntegerField(choices=Day.choices)
+    open_time = models.TimeField(null=True, blank=True)
+    close_time = models.TimeField(null=True, blank=True)
+    is_closed = models.BooleanField(default=False)
+
+    class Meta:
+        db_table = "shop_operating_hours"
+        unique_together = ("shop", "day")
+        ordering = ["day"]
+
+    def __str__(self):
+        if self.is_closed:
+            return f"{self.shop.name} – {self.get_day_display()}: Closed"
+        return f"{self.shop.name} – {self.get_day_display()}: {self.open_time} – {self.close_time}"

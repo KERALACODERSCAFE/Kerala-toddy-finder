@@ -19,6 +19,7 @@ from .models import (
     ShopFoodItem,
     ShopLicense,
     ShopMedia,
+    ShopOperatingHours,
     ShopRating,
     ShopReview,
     ToddyShop,
@@ -133,6 +134,14 @@ class ShopRatingSerializer(serializers.ModelSerializer):
         extra_kwargs = {"rating_type": {"write_only": True}}
 
 
+class ShopOperatingHoursSerializer(serializers.ModelSerializer):
+    day_label = serializers.CharField(source="get_day_display", read_only=True)
+
+    class Meta:
+        model = ShopOperatingHours
+        fields = ["id", "day", "day_label", "open_time", "close_time", "is_closed"]
+
+
 class ToddyShopListSerializer(serializers.ModelSerializer):
     place = PlaceReadSerializer(read_only=True)
     category = ShopCategorySerializer(read_only=True)
@@ -169,9 +178,11 @@ class ToddyShopDetailSerializer(serializers.ModelSerializer):
     license = ShopLicenseSerializer(read_only=True)
     shop_food_items = ShopFoodItemSerializer(many=True, read_only=True)
     media = ShopMediaSerializer(many=True, read_only=True)
+    operating_hours = ShopOperatingHoursSerializer(many=True, read_only=True)
     avg_rating = serializers.SerializerMethodField()
     ratings_breakdown = serializers.SerializerMethodField()
     review_count = serializers.IntegerField(source="reviews.count", read_only=True)
+    is_open_now = serializers.SerializerMethodField()
 
     class Meta:
         model = ToddyShop
@@ -192,6 +203,8 @@ class ToddyShopDetailSerializer(serializers.ModelSerializer):
             "license",
             "shop_food_items",
             "media",
+            "operating_hours",
+            "is_open_now",
             "avg_rating",
             "ratings_breakdown",
             "review_count",
@@ -207,6 +220,19 @@ class ToddyShopDetailSerializer(serializers.ModelSerializer):
     def get_ratings_breakdown(self, obj):
         rows = obj.ratings.values("rating_type__name").annotate(avg=Avg("score"))
         return {r["rating_type__name"]: round(r["avg"], 1) for r in rows}
+
+    def get_is_open_now(self, obj):
+        from django.utils import timezone
+        now = timezone.localtime()
+        today = now.weekday()
+        hours = obj.operating_hours.filter(day=today).first()
+        if not hours:
+            return None
+        if hours.is_closed:
+            return False
+        if not hours.open_time or not hours.close_time:
+            return None
+        return hours.open_time <= now.time() <= hours.close_time
 
 
 class ToddyShopWriteSerializer(serializers.ModelSerializer):
