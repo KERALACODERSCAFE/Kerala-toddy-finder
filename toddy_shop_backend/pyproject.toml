@@ -12,4 +12,5 @@ dependencies = [
     "django-filter>=24.0",
     "Pillow>=11.0.0",
     "drf-spectacular>=0.29.0",
+    "whitenoise>=6.12.0",
 ]
