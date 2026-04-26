@@ -144,19 +144,19 @@ class ShopRating(models.Model):
 
 class ShopOperatingHours(models.Model):
     class Day(models.IntegerChoices):
-        MONDAY    = 0, "Monday"
-        TUESDAY   = 1, "Tuesday"
+        MONDAY = 0, "Monday"
+        TUESDAY = 1, "Tuesday"
         WEDNESDAY = 2, "Wednesday"
-        THURSDAY  = 3, "Thursday"
-        FRIDAY    = 4, "Friday"
-        SATURDAY  = 5, "Saturday"
-        SUNDAY    = 6, "Sunday"
+        THURSDAY = 3, "Thursday"
+        FRIDAY = 4, "Friday"
+        SATURDAY = 5, "Saturday"
+        SUNDAY = 6, "Sunday"
 
-    shop       = models.ForeignKey(ToddyShop, on_delete=models.CASCADE, related_name="operating_hours")
-    day        = models.IntegerField(choices=Day.choices)
-    open_time  = models.TimeField(null=True, blank=True)
+    shop = models.ForeignKey(ToddyShop, on_delete=models.CASCADE, related_name="operating_hours")
+    day = models.IntegerField(choices=Day.choices)
+    open_time = models.TimeField(null=True, blank=True)
     close_time = models.TimeField(null=True, blank=True)
-    is_closed  = models.BooleanField(default=False)
+    is_closed = models.BooleanField(default=False)
 
     class Meta:
         db_table = "shop_operating_hours"

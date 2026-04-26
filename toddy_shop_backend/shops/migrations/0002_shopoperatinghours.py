@@ -14,12 +14,22 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='ShopOperatingHours',
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('day', models.IntegerField(choices=[(0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'), (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday')])),
+                ('id', models.BigAutoField(
+                    auto_created=True, primary_key=True,
+                    serialize=False, verbose_name='ID',
+                )),
+                ('day', models.IntegerField(choices=[
+                    (0, 'Monday'), (1, 'Tuesday'), (2, 'Wednesday'),
+                    (3, 'Thursday'), (4, 'Friday'), (5, 'Saturday'), (6, 'Sunday'),
+                ])),
                 ('open_time', models.TimeField(blank=True, null=True)),
                 ('close_time', models.TimeField(blank=True, null=True)),
                 ('is_closed', models.BooleanField(default=False)),
-                ('shop', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='operating_hours', to='shops.toddyshop')),
+                ('shop', models.ForeignKey(
+                    on_delete=django.db.models.deletion.CASCADE,
+                    related_name='operating_hours',
+                    to='shops.toddyshop',
+                )),
             ],
             options={
                 'db_table': 'shop_operating_hours',
