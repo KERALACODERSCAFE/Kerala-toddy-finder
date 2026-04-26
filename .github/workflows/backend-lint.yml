@@ -31,5 +31,5 @@ jobs:
         run: |
           flake8 toddy_shop_backend/ \
             --max-line-length=119 \
-            --exclude=toddy_shop_backend/migrations,toddy_shop_backend/venv \
+            --exclude=toddy_shop_backend/venv,toddy_shop_backend/core/migrations,toddy_shop_backend/shops/migrations \
             --statistics
