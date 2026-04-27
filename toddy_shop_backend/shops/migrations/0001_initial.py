@@ -11,110 +11,313 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('core', '0001_initial'),
+        ("core", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ToddyShop',
+            name="ToddyShop",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('name', models.CharField(max_length=200)),
-                ('description', models.TextField(blank=True)),
-                ('address', models.TextField()),
-                ('phone', models.CharField(blank=True, max_length=15)),
-                ('email', models.EmailField(blank=True, max_length=254)),
-                ('website', models.URLField(blank=True)),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='shops', to='core.shopcategory')),
-                ('facilities', models.ManyToManyField(blank=True, related_name='shops', to='core.facility')),
-                ('hygiene_tags', models.ManyToManyField(blank=True, related_name='shops', to='core.hygienetag')),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='shops', to=settings.AUTH_USER_MODEL)),
-                ('place', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='shops', to='core.place')),
-                ('status', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='shops', to='core.status')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("name", models.CharField(max_length=200)),
+                ("description", models.TextField(blank=True)),
+                ("address", models.TextField()),
+                ("phone", models.CharField(blank=True, max_length=15)),
+                ("email", models.EmailField(blank=True, max_length=254)),
+                ("website", models.URLField(blank=True)),
+                (
+                    "category",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="shops",
+                        to="core.shopcategory",
+                    ),
+                ),
+                (
+                    "facilities",
+                    models.ManyToManyField(
+                        blank=True, related_name="shops", to="core.facility"
+                    ),
+                ),
+                (
+                    "hygiene_tags",
+                    models.ManyToManyField(
+                        blank=True, related_name="shops", to="core.hygienetag"
+                    ),
+                ),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="shops",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "place",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="shops",
+                        to="core.place",
+                    ),
+                ),
+                (
+                    "status",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="shops",
+                        to="core.status",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'toddy_shops',
-                'ordering': ['-created_at'],
+                "db_table": "toddy_shops",
+                "ordering": ["-created_at"],
             },
         ),
         migrations.CreateModel(
-            name='ShopMedia',
+            name="ShopMedia",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('file', models.FileField(upload_to='shop_media/%Y/%m/')),
-                ('caption', models.CharField(blank=True, max_length=255)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('media_type', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='core.mediatype')),
-                ('uploaded_by', models.ForeignKey(null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='uploaded_media', to=settings.AUTH_USER_MODEL)),
-                ('shop', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='media', to='shops.toddyshop')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("file", models.FileField(upload_to="shop_media/%Y/%m/")),
+                ("caption", models.CharField(blank=True, max_length=255)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "media_type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT, to="core.mediatype"
+                    ),
+                ),
+                (
+                    "uploaded_by",
+                    models.ForeignKey(
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        related_name="uploaded_media",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "shop",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="media",
+                        to="shops.toddyshop",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'shop_media',
+                "db_table": "shop_media",
             },
         ),
         migrations.CreateModel(
-            name='ShopLicense',
+            name="ShopLicense",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('license_number', models.CharField(max_length=100, unique=True)),
-                ('issued_date', models.DateField()),
-                ('expiry_date', models.DateField(db_index=True)),
-                ('license_status', models.CharField(choices=[('active', 'Active'), ('expired', 'Expired'), ('unknown', 'Unknown'), ('restricted', 'Restricted')], default='unknown', max_length=20)),
-                ('license_type', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='core.licensetype')),
-                ('shop', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='license', to='shops.toddyshop')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("license_number", models.CharField(max_length=100, unique=True)),
+                ("issued_date", models.DateField()),
+                ("expiry_date", models.DateField(db_index=True)),
+                (
+                    "license_status",
+                    models.CharField(
+                        choices=[
+                            ("active", "Active"),
+                            ("expired", "Expired"),
+                            ("unknown", "Unknown"),
+                            ("restricted", "Restricted"),
+                        ],
+                        default="unknown",
+                        max_length=20,
+                    ),
+                ),
+                (
+                    "license_type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="core.licensetype",
+                    ),
+                ),
+                (
+                    "shop",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="license",
+                        to="shops.toddyshop",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'shop_licenses',
+                "db_table": "shop_licenses",
             },
         ),
         migrations.CreateModel(
-            name='ShopReview',
+            name="ShopReview",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('title', models.CharField(blank=True, max_length=200)),
-                ('body', models.TextField()),
-                ('category', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='core.reviewcategory')),
-                ('status', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, related_name='reviews', to='core.status')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to=settings.AUTH_USER_MODEL)),
-                ('shop', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='shops.toddyshop')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("title", models.CharField(blank=True, max_length=200)),
+                ("body", models.TextField()),
+                (
+                    "category",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="core.reviewcategory",
+                    ),
+                ),
+                (
+                    "status",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        related_name="reviews",
+                        to="core.status",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="reviews",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "shop",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="reviews",
+                        to="shops.toddyshop",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'shop_reviews',
-                'unique_together': {('shop', 'user')},
+                "db_table": "shop_reviews",
+                "unique_together": {("shop", "user")},
             },
         ),
         migrations.CreateModel(
-            name='ShopRating',
+            name="ShopRating",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('score', models.PositiveSmallIntegerField(validators=[django.core.validators.MinValueValidator(1), django.core.validators.MaxValueValidator(10)])),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('rating_type', models.ForeignKey(on_delete=django.db.models.deletion.PROTECT, to='core.ratingtype')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ratings', to=settings.AUTH_USER_MODEL)),
-                ('shop', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='ratings', to='shops.toddyshop')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "score",
+                    models.PositiveSmallIntegerField(
+                        validators=[
+                            django.core.validators.MinValueValidator(1),
+                            django.core.validators.MaxValueValidator(10),
+                        ]
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "rating_type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.PROTECT,
+                        to="core.ratingtype",
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="ratings",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "shop",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="ratings",
+                        to="shops.toddyshop",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'shop_ratings',
-                'unique_together': {('shop', 'user', 'rating_type')},
+                "db_table": "shop_ratings",
+                "unique_together": {("shop", "user", "rating_type")},
             },
         ),
         migrations.CreateModel(
-            name='ShopFoodItem',
+            name="ShopFoodItem",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('price', models.DecimalField(blank=True, decimal_places=2, max_digits=8, null=True)),
-                ('is_available', models.BooleanField(default=True)),
-                ('food_item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='core.fooditem')),
-                ('shop', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='shop_food_items', to='shops.toddyshop')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "price",
+                    models.DecimalField(
+                        blank=True, decimal_places=2, max_digits=8, null=True
+                    ),
+                ),
+                ("is_available", models.BooleanField(default=True)),
+                (
+                    "food_item",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="core.fooditem"
+                    ),
+                ),
+                (
+                    "shop",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="shop_food_items",
+                        to="shops.toddyshop",
+                    ),
+                ),
             ],
             options={
-                'db_table': 'shop_food_items',
-                'unique_together': {('shop', 'food_item')},
+                "db_table": "shop_food_items",
+                "unique_together": {("shop", "food_item")},
             },
         ),
     ]

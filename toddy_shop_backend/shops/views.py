@@ -36,11 +36,15 @@ from .serializers import (
 @extend_schema(tags=["Shops"])
 class ToddyShopViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
-        qs = ToddyShop.objects.select_related(
-            "place__district", "category", "status", "owner__role"
-        ).prefetch_related("facilities", "hygiene_tags").annotate(
-            avg_rating=Avg("ratings__score"),
-            review_count=Count("reviews", distinct=True),
+        qs = (
+            ToddyShop.objects.select_related(
+                "place__district", "category", "status", "owner__role"
+            )
+            .prefetch_related("facilities", "hygiene_tags")
+            .annotate(
+                avg_rating=Avg("ratings__score"),
+                review_count=Count("reviews", distinct=True),
+            )
         )
 
         user = self.request.user
