@@ -1,6 +1,8 @@
+from django.db.models import Avg, Count
 from django.shortcuts import get_object_or_404
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
+from rest_framework.filters import OrderingFilter
 from rest_framework.views import APIView
 from drf_spectacular.utils import extend_schema
 
@@ -34,10 +36,21 @@ from .serializers import (
 
 @extend_schema(tags=["Shops"])
 class ToddyShopViewSet(viewsets.ModelViewSet):
+    filter_backends = [OrderingFilter]
+    ordering_fields = ["avg_rating", "review_count", "name", "created_at"]
+    ordering = ["-avg_rating", "-review_count","-created_at"]  
+
     def get_queryset(self):
-        qs = ToddyShop.objects.select_related(
-            "place__district", "category", "status", "owner__role"
-        ).prefetch_related("facilities", "hygiene_tags")
+        qs = (
+            ToddyShop.objects.select_related(
+                "place__district", "category", "status", "owner__role"
+            )
+            .prefetch_related("facilities", "hygiene_tags")
+            .annotate(
+                avg_rating=Avg("ratings__score"),
+                review_count=Count("reviews", distinct=True),
+            )
+        )
 
         user = self.request.user
         if not (user.is_authenticated and user.is_admin):

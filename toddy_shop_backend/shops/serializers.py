@@ -137,8 +137,8 @@ class ToddyShopListSerializer(serializers.ModelSerializer):
     place = PlaceReadSerializer(read_only=True)
     category = ShopCategorySerializer(read_only=True)
     status = StatusSerializer(read_only=True)
-    avg_rating = serializers.SerializerMethodField()
-    review_count = serializers.IntegerField(source="reviews.count", read_only=True)
+    avg_rating = serializers.FloatField(read_only=True)
+    review_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = ToddyShop
@@ -153,11 +153,6 @@ class ToddyShopListSerializer(serializers.ModelSerializer):
             "created_at",
         ]
 
-    def get_avg_rating(self, obj):
-        result = obj.ratings.aggregate(avg=Avg("score"))
-        avg = result.get("avg")
-        return round(avg, 1) if avg is not None else None
-
 
 class ToddyShopDetailSerializer(serializers.ModelSerializer):
     place = PlaceReadSerializer(read_only=True)
@@ -169,9 +164,9 @@ class ToddyShopDetailSerializer(serializers.ModelSerializer):
     license = ShopLicenseSerializer(read_only=True)
     shop_food_items = ShopFoodItemSerializer(many=True, read_only=True)
     media = ShopMediaSerializer(many=True, read_only=True)
-    avg_rating = serializers.SerializerMethodField()
+    avg_rating = serializers.FloatField(read_only=True)
     ratings_breakdown = serializers.SerializerMethodField()
-    review_count = serializers.IntegerField(source="reviews.count", read_only=True)
+    review_count = serializers.IntegerField(read_only=True)
 
     class Meta:
         model = ToddyShop
@@ -198,11 +193,6 @@ class ToddyShopDetailSerializer(serializers.ModelSerializer):
             "created_at",
             "updated_at",
         ]
-
-    def get_avg_rating(self, obj):
-        result = obj.ratings.aggregate(avg=Avg("score"))
-        avg = result.get("avg")
-        return round(avg, 1) if avg is not None else None
 
     def get_ratings_breakdown(self, obj):
         rows = obj.ratings.values("rating_type__name").annotate(avg=Avg("score"))
