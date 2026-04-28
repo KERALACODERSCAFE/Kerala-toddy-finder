@@ -104,9 +104,7 @@ class FoodCategorySerializer(serializers.ModelSerializer):
 
 
 class FoodItemSerializer(serializers.ModelSerializer):
-    food_category_name = serializers.CharField(
-        source="food_category.name", read_only=True
-    )
+    food_category_name = serializers.CharField(source="food_category.name", read_only=True)
 
     class Meta:
         model = FoodItem

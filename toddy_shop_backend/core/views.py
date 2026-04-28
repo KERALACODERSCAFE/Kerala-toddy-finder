@@ -1,7 +1,7 @@
+from drf_spectacular.utils import extend_schema
 from rest_framework import generics, permissions, viewsets
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-from drf_spectacular.utils import extend_schema
 
 from shared.permissions import IsAdminOrReadOnly
 from shared.responses import APIResponse
@@ -69,7 +69,7 @@ class LoginView(TokenObtainPairView):
         try:
             serializer.is_valid(raise_exception=True)
         except TokenError as exc:
-            raise InvalidToken(exc.args[0])
+            raise InvalidToken(exc.args[0]) from exc
         return APIResponse(data=serializer.validated_data, message="Login successful.")
 
 
@@ -80,7 +80,7 @@ class TokenRefreshAPIView(TokenRefreshView):
         try:
             serializer.is_valid(raise_exception=True)
         except TokenError as exc:
-            raise InvalidToken(exc.args[0])
+            raise InvalidToken(exc.args[0]) from exc
         return APIResponse(data=serializer.validated_data, message="Token refreshed.")
 
 
@@ -120,9 +120,7 @@ class LookupViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
-        return APIResponse(
-            data=serializer.data, message="Created successfully.", status=201
-        )
+        return APIResponse(data=serializer.data, message="Created successfully.", status=201)
 
     def update(self, request, *args, **kwargs):
         partial = kwargs.pop("partial", False)

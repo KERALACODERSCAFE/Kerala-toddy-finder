@@ -79,16 +79,10 @@ class Place(models.Model):
     """Locality / town within a district. Lat/lon are optional."""
 
     name = models.CharField(max_length=100)
-    district = models.ForeignKey(
-        District, on_delete=models.CASCADE, related_name="places"
-    )
+    district = models.ForeignKey(District, on_delete=models.CASCADE, related_name="places")
     address = models.TextField(blank=True)
-    latitude = models.DecimalField(
-        max_digits=9, decimal_places=6, null=True, blank=True
-    )
-    longitude = models.DecimalField(
-        max_digits=9, decimal_places=6, null=True, blank=True
-    )
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
 
     class Meta:
         db_table = "places"
@@ -122,9 +116,7 @@ class FoodCategory(models.Model):
 
 class FoodItem(models.Model):
     name = models.CharField(max_length=100)
-    food_category = models.ForeignKey(
-        FoodCategory, on_delete=models.CASCADE, related_name="food_items"
-    )
+    food_category = models.ForeignKey(FoodCategory, on_delete=models.CASCADE, related_name="food_items")
 
     class Meta:
         db_table = "food_items"

@@ -81,4 +81,14 @@ Update requirements.txt:
 uv export --frozen --output-file=requirements.txt
 ```
 
+## API Documentation
+
+- **Swagger UI**: [http://127.0.0.1:8000/api/docs/](http://127.0.0.1:8000/api/docs/)
+- **Schema (OpenAPI 3.0)**: [http://127.0.0.1:8000/api/schema/](http://127.0.0.1:8000/api/schema/)
+
+## Health Check
+
+Verify the API and database status:
+- **Endpoint**: `GET /api/v1/health/`
+
 ---

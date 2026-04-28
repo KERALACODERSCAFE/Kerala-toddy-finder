@@ -14,6 +14,8 @@ dependencies = [
     "drf-spectacular>=0.29.0",
     "whitenoise>=6.9.0",
     "gunicorn>=23.0.0",
+    "black>=24.3.0",
+    "ruff>=0.3.5",
 ]
 
 [tool.ruff]
@@ -26,3 +28,7 @@ ignore = ["E501"]  # Line length is handled by black/formatter
 
 [tool.ruff.lint.isort]
 combine-as-imports = true
+
+[tool.black]
+line-length = 119
+target-version = ['py312']

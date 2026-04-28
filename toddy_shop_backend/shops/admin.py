@@ -30,11 +30,7 @@ class ToddyShopAdmin(admin.ModelAdmin):
     readonly_fields = ["created_at", "updated_at"]
 
     def get_queryset(self, request):
-        return (
-            super()
-            .get_queryset(request)
-            .select_related("owner", "category", "place__district", "status")
-        )
+        return super().get_queryset(request).select_related("owner", "category", "place__district", "status")
 
 
 @admin.register(ShopLicense)

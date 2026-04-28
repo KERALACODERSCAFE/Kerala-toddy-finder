@@ -7,9 +7,7 @@ class APIResponse(Response):
     Formats the response to: { "status": "...", "message": "...", "data": ... }
     """
 
-    def __init__(
-        self, data=None, status=200, message="Success", is_success=True, **kwargs
-    ):
+    def __init__(self, data=None, status=200, message="Success", is_success=True, **kwargs):
         status_label = "success" if is_success else "error"
 
         response_data = {"status": status_label, "message": message, "data": data}

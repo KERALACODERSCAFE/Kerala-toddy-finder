@@ -1,8 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-from shared.models import TimeStampMixin
-
 from core.models import (
     Facility,
     FoodItem,
@@ -16,15 +14,14 @@ from core.models import (
     Status,
     User,
 )
+from shared.models import TimeStampMixin
 
 
 class ToddyShop(TimeStampMixin):
     name = models.CharField(max_length=200)
     description = models.TextField(blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="shops")
-    category = models.ForeignKey(
-        ShopCategory, on_delete=models.PROTECT, related_name="shops"
-    )
+    category = models.ForeignKey(ShopCategory, on_delete=models.PROTECT, related_name="shops")
     place = models.ForeignKey(Place, on_delete=models.PROTECT, related_name="shops")
     address = models.TextField()
     phone = models.CharField(max_length=15, blank=True)
@@ -49,9 +46,7 @@ class ShopLicense(models.Model):
         UNKNOWN = "unknown", "Unknown"
         RESTRICTED = "restricted", "Restricted"
 
-    shop = models.OneToOneField(
-        ToddyShop, on_delete=models.CASCADE, related_name="license"
-    )
+    shop = models.OneToOneField(ToddyShop, on_delete=models.CASCADE, related_name="license")
     license_type = models.ForeignKey(LicenseType, on_delete=models.PROTECT)
     license_number = models.CharField(max_length=100, unique=True)
     issued_date = models.DateField()
@@ -70,9 +65,7 @@ class ShopLicense(models.Model):
 
 
 class ShopFoodItem(models.Model):
-    shop = models.ForeignKey(
-        ToddyShop, on_delete=models.CASCADE, related_name="shop_food_items"
-    )
+    shop = models.ForeignKey(ToddyShop, on_delete=models.CASCADE, related_name="shop_food_items")
     food_item = models.ForeignKey(FoodItem, on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=8, decimal_places=2, null=True, blank=True)
     is_available = models.BooleanField(default=True)
@@ -106,9 +99,7 @@ class ShopMedia(models.Model):
 
 
 class ShopReview(TimeStampMixin):
-    shop = models.ForeignKey(
-        ToddyShop, on_delete=models.CASCADE, related_name="reviews"
-    )
+    shop = models.ForeignKey(ToddyShop, on_delete=models.CASCADE, related_name="reviews")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviews")
     category = models.ForeignKey(ReviewCategory, on_delete=models.PROTECT)
     title = models.CharField(max_length=200, blank=True)
@@ -124,14 +115,10 @@ class ShopReview(TimeStampMixin):
 
 
 class ShopRating(models.Model):
-    shop = models.ForeignKey(
-        ToddyShop, on_delete=models.CASCADE, related_name="ratings"
-    )
+    shop = models.ForeignKey(ToddyShop, on_delete=models.CASCADE, related_name="ratings")
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="ratings")
     rating_type = models.ForeignKey(RatingType, on_delete=models.PROTECT)
-    score = models.PositiveSmallIntegerField(
-        validators=[MinValueValidator(1), MaxValueValidator(10)]
-    )
+    score = models.PositiveSmallIntegerField(validators=[MinValueValidator(1), MaxValueValidator(10)])
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:

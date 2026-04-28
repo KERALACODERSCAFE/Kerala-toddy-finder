@@ -16,9 +16,7 @@ router.register("hygiene-tags", views.HygieneTagViewSet, basename="hygiene-tag")
 router.register("rating-types", views.RatingTypeViewSet, basename="rating-type")
 router.register("media-types", views.MediaTypeViewSet, basename="media-type")
 router.register("license-types", views.LicenseTypeViewSet, basename="license-type")
-router.register(
-    "review-categories", views.ReviewCategoryViewSet, basename="review-category"
-)
+router.register("review-categories", views.ReviewCategoryViewSet, basename="review-category")
 
 urlpatterns = [
     # Auth

@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.views import APIView
-from drf_spectacular.utils import extend_schema
 
 from core.models import Status
 from shared.permissions import IsAdmin, IsShopOwner, IsShopOwnerOrAdmin
@@ -35,9 +35,9 @@ from .serializers import (
 @extend_schema(tags=["Shops"])
 class ToddyShopViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
-        qs = ToddyShop.objects.select_related(
-            "place__district", "category", "status", "owner__role"
-        ).prefetch_related("facilities", "hygiene_tags")
+        qs = ToddyShop.objects.select_related("place__district", "category", "status", "owner__role").prefetch_related(
+            "facilities", "hygiene_tags"
+        )
 
         user = self.request.user
         if not (user.is_authenticated and user.is_admin):
@@ -77,9 +77,7 @@ class ToddyShopViewSet(viewsets.ModelViewSet):
         qs = self.filter_queryset(self.get_queryset())
         page = self.paginate_queryset(qs)
         if page is not None:
-            data = ToddyShopListSerializer(
-                page, many=True, context={"request": request}
-            ).data
+            data = ToddyShopListSerializer(page, many=True, context={"request": request}).data
             return self.get_paginated_response(data)
         data = ToddyShopListSerializer(qs, many=True, context={"request": request}).data
         return APIResponse(data=data, message="Shops retrieved successfully.")
@@ -287,9 +285,7 @@ class ShopMediaView(APIView):
         shop = self._get_shop(shop_pk)
         media = shop.media.select_related("media_type", "uploaded_by").all()
         return APIResponse(
-            data=ShopMediaSerializer(
-                media, many=True, context={"request": request}
-            ).data,
+            data=ShopMediaSerializer(media, many=True, context={"request": request}).data,
             message="Media retrieved.",
         )
 
@@ -302,9 +298,7 @@ class ShopMediaView(APIView):
                 status=403,
                 is_success=False,
             )
-        serializer = ShopMediaSerializer(
-            data=request.data, context={"request": request}
-        )
+        serializer = ShopMediaSerializer(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         serializer.save(shop=shop, uploaded_by=request.user)
         return APIResponse(data=serializer.data, message="Media uploaded.", status=201)
@@ -367,9 +361,7 @@ class ShopReviewView(APIView):
         serializer = ShopReviewSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         serializer.save(shop=shop, user=request.user, status=published)
-        return APIResponse(
-            data=serializer.data, message="Review submitted.", status=201
-        )
+        return APIResponse(data=serializer.data, message="Review submitted.", status=201)
 
 
 @extend_schema(tags=["Shops"])

@@ -27,9 +27,7 @@ from .models import (
 
 class ShopLicenseSerializer(serializers.ModelSerializer):
     license_type_detail = LicenseTypeSerializer(source="license_type", read_only=True)
-    license_status_display = serializers.CharField(
-        source="get_license_status_display", read_only=True
-    )
+    license_status_display = serializers.CharField(source="get_license_status_display", read_only=True)
 
     class Meta:
         model = ShopLicense
@@ -48,9 +46,7 @@ class ShopLicenseSerializer(serializers.ModelSerializer):
 
 class ShopFoodItemSerializer(serializers.ModelSerializer):
     food_item_name = serializers.CharField(source="food_item.name", read_only=True)
-    food_category_name = serializers.CharField(
-        source="food_item.food_category.name", read_only=True
-    )
+    food_category_name = serializers.CharField(source="food_item.food_category.name", read_only=True)
 
     class Meta:
         model = ShopFoodItem
@@ -210,12 +206,8 @@ class ToddyShopDetailSerializer(serializers.ModelSerializer):
 
 
 class ToddyShopWriteSerializer(serializers.ModelSerializer):
-    facilities = serializers.PrimaryKeyRelatedField(
-        queryset=Facility.objects.all(), many=True, required=False
-    )
-    hygiene_tags = serializers.PrimaryKeyRelatedField(
-        queryset=HygieneTag.objects.all(), many=True, required=False
-    )
+    facilities = serializers.PrimaryKeyRelatedField(queryset=Facility.objects.all(), many=True, required=False)
+    hygiene_tags = serializers.PrimaryKeyRelatedField(queryset=HygieneTag.objects.all(), many=True, required=False)
 
     class Meta:
         model = ToddyShop
