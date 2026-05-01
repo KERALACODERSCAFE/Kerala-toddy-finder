@@ -128,3 +128,17 @@ class ShopRating(models.Model):
 
     def __str__(self):
         return f"{self.user.username} – {self.shop.name} – {self.rating_type.name}: {self.score}"
+
+
+class FavoriteShop(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorite_shops")
+    shop = models.ForeignKey(ToddyShop, on_delete=models.CASCADE, related_name="favorited_by")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "favorite_shops"
+        unique_together = ("user", "shop")
+        ordering = ["-created_at"]
+
+    def __str__(self):
+        return f"{self.user.username} favorited {self.shop.name}"

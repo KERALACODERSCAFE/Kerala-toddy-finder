@@ -9,6 +9,7 @@ from shared.permissions import IsAdmin, IsShopOwner, IsShopOwnerOrAdmin
 from shared.responses import APIResponse
 
 from .models import (
+    FavoriteShop,
     ShopFoodItem,
     ShopLicense,
     ShopMedia,
@@ -17,6 +18,7 @@ from .models import (
     ToddyShop,
 )
 from .serializers import (
+    FavoriteShopSerializer,
     ShopFoodItemSerializer,
     ShopLicenseSerializer,
     ShopMediaSerializer,
@@ -128,6 +130,25 @@ class ToddyShopViewSet(viewsets.ModelViewSet):
         shop.save(update_fields=["status", "updated_at"])
         data = ToddyShopDetailSerializer(shop, context={"request": request}).data
         return APIResponse(data=data, message="Shop approved and is now active.")
+
+    @action(detail=True, methods=["post"], permission_classes=[permissions.IsAuthenticated])
+    def favorite(self, request, pk=None):
+        shop = self.get_object()
+        favorite, created = FavoriteShop.objects.get_or_create(user=request.user, shop=shop)
+
+        if not created:
+            favorite.delete()
+            return APIResponse(data={"is_favorited": False}, message="Shop removed from favorites.")
+
+        return APIResponse(data={"is_favorited": True}, message="Shop added to favorites.", status=201)
+
+    @action(detail=False, methods=["get"], permission_classes=[permissions.IsAuthenticated])
+    def my_favorites(self, request):
+        favorites = FavoriteShop.objects.filter(user=request.user).select_related(
+            "shop__place__district", "shop__category", "shop__status"
+        )
+        serializer = FavoriteShopSerializer(favorites, many=True, context={"request": request})
+        return APIResponse(data=serializer.data, message="Favorite shops retrieved successfully.")
 
     @action(detail=True, methods=["post"], permission_classes=[IsAdmin])
     def suspend(self, request, pk=None):

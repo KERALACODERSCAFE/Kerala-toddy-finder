@@ -16,6 +16,7 @@ from core.serializers import (
 )
 
 from .models import (
+    FavoriteShop,
     ShopFoodItem,
     ShopLicense,
     ShopMedia,
@@ -129,6 +130,8 @@ class ShopRatingSerializer(serializers.ModelSerializer):
         extra_kwargs = {"rating_type": {"write_only": True}}
 
 
+
+
 class ToddyShopListSerializer(serializers.ModelSerializer):
     place = PlaceReadSerializer(read_only=True)
     category = ShopCategorySerializer(read_only=True)
@@ -155,6 +158,15 @@ class ToddyShopListSerializer(serializers.ModelSerializer):
         return round(avg, 1) if avg is not None else None
 
 
+class FavoriteShopSerializer(serializers.ModelSerializer):
+    shop_detail = ToddyShopListSerializer(source="shop", read_only=True)
+
+    class Meta:
+        model = FavoriteShop
+        fields = ["id", "shop", "shop_detail", "created_at"]
+        extra_kwargs = {"shop": {"write_only": True}}
+
+
 class ToddyShopDetailSerializer(serializers.ModelSerializer):
     place = PlaceReadSerializer(read_only=True)
     category = ShopCategorySerializer(read_only=True)
@@ -168,6 +180,7 @@ class ToddyShopDetailSerializer(serializers.ModelSerializer):
     avg_rating = serializers.SerializerMethodField()
     ratings_breakdown = serializers.SerializerMethodField()
     review_count = serializers.IntegerField(source="reviews.count", read_only=True)
+    is_favorited = serializers.SerializerMethodField()
 
     class Meta:
         model = ToddyShop
@@ -191,6 +204,7 @@ class ToddyShopDetailSerializer(serializers.ModelSerializer):
             "avg_rating",
             "ratings_breakdown",
             "review_count",
+            "is_favorited",
             "created_at",
             "updated_at",
         ]
@@ -203,6 +217,12 @@ class ToddyShopDetailSerializer(serializers.ModelSerializer):
     def get_ratings_breakdown(self, obj):
         rows = obj.ratings.values("rating_type__name").annotate(avg=Avg("score"))
         return {r["rating_type__name"]: round(r["avg"], 1) for r in rows}
+
+    def get_is_favorited(self, obj):
+        user = self.context.get("request").user
+        if user.is_authenticated:
+            return obj.favorited_by.filter(user=user).exists()
+        return False
 
 
 class ToddyShopWriteSerializer(serializers.ModelSerializer):

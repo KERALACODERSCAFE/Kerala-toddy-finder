@@ -7,6 +7,7 @@ from .models import (
     ShopRating,
     ShopReview,
     ToddyShop,
+    FavoriteShop,
 )
 
 
@@ -31,6 +32,14 @@ class ToddyShopAdmin(admin.ModelAdmin):
 
     def get_queryset(self, request):
         return super().get_queryset(request).select_related("owner", "category", "place__district", "status")
+
+
+@admin.register(FavoriteShop)
+class FavoriteShopAdmin(admin.ModelAdmin):
+    list_display = ["id", "user", "shop", "created_at"]
+    list_filter = ["shop__place__district"]
+    search_fields = ["user__username", "shop__name"]
+    readonly_fields = ["created_at"]
 
 
 @admin.register(ShopLicense)
