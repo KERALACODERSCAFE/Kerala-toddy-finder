@@ -28,7 +28,9 @@ from .models import (
 
 class ShopLicenseSerializer(serializers.ModelSerializer):
     license_type_detail = LicenseTypeSerializer(source="license_type", read_only=True)
-    license_status_display = serializers.CharField(source="get_license_status_display", read_only=True)
+    license_status_display = serializers.CharField(
+        source="get_license_status_display", read_only=True
+    )
 
     class Meta:
         model = ShopLicense
@@ -47,7 +49,9 @@ class ShopLicenseSerializer(serializers.ModelSerializer):
 
 class ShopFoodItemSerializer(serializers.ModelSerializer):
     food_item_name = serializers.CharField(source="food_item.name", read_only=True)
-    food_category_name = serializers.CharField(source="food_item.food_category.name", read_only=True)
+    food_category_name = serializers.CharField(
+        source="food_item.food_category.name", read_only=True
+    )
 
     class Meta:
         model = ShopFoodItem
@@ -261,3 +265,4 @@ class ToddyShopWriteSerializer(serializers.ModelSerializer):
         if hygiene_tags is not None:
             instance.hygiene_tags.set(hygiene_tags)
         return instance
+        
