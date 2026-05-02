@@ -130,8 +130,6 @@ class ShopRatingSerializer(serializers.ModelSerializer):
         extra_kwargs = {"rating_type": {"write_only": True}}
 
 
-
-
 class ToddyShopListSerializer(serializers.ModelSerializer):
     place = PlaceReadSerializer(read_only=True)
     category = ShopCategorySerializer(read_only=True)
