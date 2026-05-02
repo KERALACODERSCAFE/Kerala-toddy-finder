@@ -265,4 +265,3 @@ class ToddyShopWriteSerializer(serializers.ModelSerializer):
         if hygiene_tags is not None:
             instance.hygiene_tags.set(hygiene_tags)
         return instance
-        
