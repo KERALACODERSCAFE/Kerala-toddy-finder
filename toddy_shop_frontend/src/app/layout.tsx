@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Cormorant_Garamond, Nunito } from "next/font/google";
 import "./globals.css";
 import { Footer } from "@/components/layout/Footer";
-import { MobileNav } from "@/components/layout/MobileNav";
 
 const cormorant = Cormorant_Garamond({
     subsets: ["latin"],
@@ -43,7 +42,6 @@ export default function RootLayout({
             <body className="min-h-screen flex flex-col">
                 <main className="flex-1">{children}</main>
                 <Footer />
-                {/* <MobileNav /> */}
             </body>
         </html>
     );
