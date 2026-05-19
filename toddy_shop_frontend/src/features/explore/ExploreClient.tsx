@@ -713,7 +713,7 @@ export default function ExploreClient() {
                           <span className="text-xs text-amber-500 font-bold flex items-center gap-0.5">★ 5.0</span>
                         </div>
                         <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-                          "Outstanding fresh sweet toddy and fiery duck roast. Truly authentic Kerala vibe. Accessible parking and fast service. Will visit again!"
+                          &quot;Outstanding fresh sweet toddy and fiery duck roast. Truly authentic Kerala vibe. Accessible parking and fast service. Will visit again!&quot;
                         </p>
                       </div>
 
@@ -723,7 +723,7 @@ export default function ExploreClient() {
                           <span className="text-xs text-amber-500 font-bold flex items-center gap-0.5">★ 4.0</span>
                         </div>
                         <p className="text-[11px] text-slate-500 mt-1 leading-relaxed">
-                          "Excellent backwater surroundings and family friendly atmosphere. Spicy crab was mouthwatering, but the seats fill up very quickly."
+                          &quot;Excellent backwater surroundings and family friendly atmosphere. Spicy crab was mouthwatering, but the seats fill up very quickly.&quot;
                         </p>
                       </div>
                     </div>
