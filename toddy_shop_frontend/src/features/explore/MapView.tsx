@@ -76,7 +76,7 @@ export default function MapView({
             center={[9.9312, 76.2673]}
             zoom={10}
             scrollWheelZoom={true}
-            className="h-full w-full"
+            className="pt-[72px] h-screen w-full"
         >
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

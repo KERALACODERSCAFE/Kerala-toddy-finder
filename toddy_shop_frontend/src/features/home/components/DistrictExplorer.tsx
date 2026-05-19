@@ -33,7 +33,10 @@ export function DistrictExplorer() {
         (page + 1) * ITEMS_PER_PAGE,
     );
     return (
-        <section className="bg-white py-24 px-8 border-b border-stone-100">
+        <section
+            id="districts"
+            className="bg-white py-24 px-8 border-b border-stone-100"
+        >
             {" "}
             <div className="max-w-7xl mx-auto flex flex-col lg:flex-row gap-16 lg:gap-24">
                 {" "}
