@@ -5,46 +5,46 @@ import { Footer } from "@/components/layout/Footer";
 import { MobileNav } from "@/components/layout/MobileNav";
 
 const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-heading",
+    subsets: ["latin"],
+    weight: ["400", "500", "600", "700"],
+    variable: "--font-heading",
 });
 
 const nunito = Nunito({
-  subsets: ["latin"],
-  weight: ["400", "600", "700"],
-  variable: "--font-body",
+    subsets: ["latin"],
+    weight: ["400", "600", "700"],
+    variable: "--font-body",
 });
 
 export const metadata: Metadata = {
-  title: "Shaap | Kerala's Authentic Toddy Finder",
-  description:
-    "Discover authentic Kerala toddy shop experiences — where tradition meets taste.",
+    title: "Shaap | Kerala's Authentic Toddy Finder",
+    description:
+        "Discover authentic Kerala toddy shop experiences — where tradition meets taste.",
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
+    children: React.ReactNode;
 }>) {
-  return (
-    <html
-      lang="en"
-      className={`${cormorant.variable} ${nunito.variable} antialiased`}
-      suppressHydrationWarning
-    >
-      <head>
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link
-          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
-          rel="stylesheet"
-        />
-      </head>
-      <body className="min-h-screen flex flex-col">
-        <main className="flex-1">{children}</main>
-        <Footer />
-        <MobileNav />
-      </body>
-    </html>
-  );
+    return (
+        <html
+            lang="en"
+            className={`${cormorant.variable} ${nunito.variable} antialiased`}
+            suppressHydrationWarning
+        >
+            <head>
+                {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+                <link
+                    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+                    rel="stylesheet"
+                />
+            </head>
+            <body className="min-h-screen flex flex-col">
+                <main className="flex-1">{children}</main>
+                <Footer />
+                {/* <MobileNav /> */}
+            </body>
+        </html>
+    );
 }
