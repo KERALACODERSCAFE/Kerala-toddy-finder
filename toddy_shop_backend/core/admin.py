@@ -15,6 +15,9 @@ from .models import (
     ShopCategory,
     Status,
     User,
+    UserFavorite,
+    UserHistory,
+    UserProfile,
     UserRole,
 )
 
@@ -30,6 +33,32 @@ class UserAdmin(BaseUserAdmin):
 @admin.register(UserRole)
 class UserRoleAdmin(admin.ModelAdmin):
     list_display = ["id", "name"]
+
+
+@admin.register(UserProfile)
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ["id", "user", "full_name", "location", "preferred_district", "created_at"]
+    list_filter = ["preferred_district"]
+    search_fields = ["user__username", "user__email", "full_name", "location"]
+    autocomplete_fields = ["user", "preferred_district"]
+    readonly_fields = ["created_at", "updated_at"]
+
+
+@admin.register(UserFavorite)
+class UserFavoriteAdmin(admin.ModelAdmin):
+    list_display = ["id", "user", "shop", "created_at"]
+    search_fields = ["user__username", "shop__name"]
+    autocomplete_fields = ["user", "shop"]
+    readonly_fields = ["created_at", "updated_at"]
+
+
+@admin.register(UserHistory)
+class UserHistoryAdmin(admin.ModelAdmin):
+    list_display = ["id", "user", "shop", "action", "visit_count", "last_seen_at"]
+    list_filter = ["action"]
+    search_fields = ["user__username", "shop__name"]
+    autocomplete_fields = ["user", "shop"]
+    readonly_fields = ["created_at", "updated_at"]
 
 
 @admin.register(Status)

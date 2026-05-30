@@ -28,6 +28,24 @@ urlpatterns = [
         name="auth-token-refresh",
     ),
     path("auth/me/", views.MeView.as_view(), name="auth-me"),
+    path("profile/", views.UserProfileView.as_view(), name="user-profile"),
+    path("favorites/", views.UserFavoriteView.as_view(), name="user-favorites"),
+    path(
+        "favorites/<int:shop_pk>/",
+        views.UserFavoriteDetailView.as_view(),
+        name="user-favorite-detail",
+    ),
+    path("history/", views.UserHistoryView.as_view(), name="user-history"),
+    path(
+        "history/<int:pk>/",
+        views.UserHistoryDetailView.as_view(),
+        name="user-history-detail",
+    ),
+    path(
+        "history/clear/",
+        views.UserHistoryClearView.as_view(),
+        name="user-history-clear",
+    ),
     # Lookup data
     path("health/", views.HealthCheckView.as_view(), name="health-check"),
     path("", include(router.urls)),

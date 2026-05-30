@@ -1,5 +1,8 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
+
+from shared.models import TimeStampMixin
 
 
 class UserRole(models.Model):
@@ -190,3 +193,65 @@ class ReviewCategory(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class UserProfile(TimeStampMixin):
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="profile")
+    full_name = models.CharField(max_length=150, blank=True)
+    bio = models.TextField(blank=True)
+    avatar = models.ImageField(upload_to="user_profiles/%Y/%m/", blank=True)
+    location = models.CharField(max_length=150, blank=True)
+    preferred_district = models.ForeignKey(
+        District,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name="user_profiles",
+    )
+
+    class Meta:
+        db_table = "user_profiles"
+
+    def __str__(self):
+        return f"{self.user.username} profile"
+
+
+class UserFavorite(TimeStampMixin):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
+    shop = models.ForeignKey("shops.ToddyShop", on_delete=models.CASCADE, related_name="favorited_by")
+
+    class Meta:
+        db_table = "user_favorites"
+        ordering = ["-created_at"]
+        constraints = [
+            models.UniqueConstraint(fields=["user", "shop"], name="unique_user_favorite_shop"),
+        ]
+
+    def __str__(self):
+        return f"{self.user.username} favorited {self.shop.name}"
+
+
+class UserHistory(TimeStampMixin):
+    class HistoryAction(models.TextChoices):
+        VIEWED = "viewed", "Viewed"
+        VISITED = "visited", "Visited"
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="history")
+    shop = models.ForeignKey("shops.ToddyShop", on_delete=models.CASCADE, related_name="history_entries")
+    action = models.CharField(max_length=20, choices=HistoryAction.choices, default=HistoryAction.VIEWED)
+    visit_count = models.PositiveIntegerField(default=1)
+    last_seen_at = models.DateTimeField(default=timezone.now, db_index=True)
+
+    class Meta:
+        db_table = "user_history"
+        ordering = ["-last_seen_at"]
+        verbose_name_plural = "user history"
+        constraints = [
+            models.UniqueConstraint(fields=["user", "shop", "action"], name="unique_user_shop_history_action"),
+        ]
+        indexes = [
+            models.Index(fields=["user", "-last_seen_at"], name="user_history_seen_idx"),
+        ]
+
+    def __str__(self):
+        return f"{self.user.username} {self.action} {self.shop.name}"

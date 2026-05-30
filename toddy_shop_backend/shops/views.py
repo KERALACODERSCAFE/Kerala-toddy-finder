@@ -1,10 +1,11 @@
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from drf_spectacular.utils import extend_schema
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.views import APIView
 
-from core.models import Status
+from core.models import Status, UserHistory
 from shared.permissions import IsAdmin, IsShopOwner, IsShopOwnerOrAdmin
 from shared.responses import APIResponse
 
@@ -84,6 +85,17 @@ class ToddyShopViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
         shop = self.get_object()
+        if request.user.is_authenticated:
+            history, created = UserHistory.objects.get_or_create(
+                user=request.user,
+                shop=shop,
+                action=UserHistory.HistoryAction.VIEWED,
+                defaults={"last_seen_at": timezone.now()},
+            )
+            if not created:
+                history.visit_count += 1
+                history.last_seen_at = timezone.now()
+                history.save(update_fields=["visit_count", "last_seen_at", "updated_at"])
         data = ToddyShopDetailSerializer(shop, context={"request": request}).data
         return APIResponse(data=data, message="Shop retrieved successfully.")
 

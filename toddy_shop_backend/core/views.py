@@ -1,4 +1,5 @@
 from django.db.models import Avg, Count, Q
+from django.utils import timezone
 from drf_spectacular.utils import extend_schema
 from rest_framework import generics, permissions, viewsets
 from rest_framework.decorators import action
@@ -21,6 +22,9 @@ from .models import (
     ReviewCategory,
     ShopCategory,
     Status,
+    UserFavorite,
+    UserHistory,
+    UserProfile,
     UserRole,
 )
 from .serializers import (
@@ -37,6 +41,9 @@ from .serializers import (
     ReviewCategorySerializer,
     ShopCategorySerializer,
     StatusSerializer,
+    UserFavoriteSerializer,
+    UserHistorySerializer,
+    UserProfileSerializer,
     UserRoleSerializer,
     UserSerializer,
 )
@@ -97,6 +104,157 @@ class MeView(generics.RetrieveAPIView):
     def retrieve(self, request, *args, **kwargs):
         serializer = self.get_serializer(self.get_object())
         return APIResponse(data=serializer.data, message="Profile retrieved.")
+
+
+@extend_schema(tags=["User Profile"])
+class UserProfileView(generics.GenericAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        profile, _ = UserProfile.objects.select_related("user", "preferred_district").get_or_create(
+            user=self.request.user
+        )
+        return profile
+
+    def get(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_object())
+        return APIResponse(data=serializer.data, message="User profile retrieved.")
+
+    def post(self, request, *args, **kwargs):
+        if UserProfile.objects.filter(user=request.user).exists():
+            return APIResponse(
+                data=None,
+                message="User profile already exists. Use PUT or PATCH to update it.",
+                status=400,
+                is_success=False,
+            )
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        profile = serializer.save(user=request.user)
+        return APIResponse(
+            data=self.get_serializer(profile).data,
+            message="User profile created.",
+            status=201,
+        )
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_object(), data=request.data)
+        serializer.is_valid(raise_exception=True)
+        profile = serializer.save()
+        return APIResponse(data=self.get_serializer(profile).data, message="User profile updated.")
+
+    def patch(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_object(), data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        profile = serializer.save()
+        return APIResponse(data=self.get_serializer(profile).data, message="User profile updated.")
+
+    def delete(self, request, *args, **kwargs):
+        self.get_object().delete()
+        return APIResponse(data=None, message="User profile deleted.")
+
+
+@extend_schema(tags=["User Favorites"])
+class UserFavoriteView(generics.GenericAPIView):
+    serializer_class = UserFavoriteSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return UserFavorite.objects.filter(user=self.request.user).select_related("shop__place__district")
+
+    def get(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_queryset(), many=True)
+        return APIResponse(data=serializer.data, message="Favorites retrieved.")
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        favorite, created = UserFavorite.objects.get_or_create(
+            user=request.user,
+            shop=serializer.validated_data["shop"],
+        )
+        return APIResponse(
+            data=self.get_serializer(favorite).data,
+            message="Favorite added." if created else "Shop is already in favorites.",
+            status=201 if created else 200,
+        )
+
+
+@extend_schema(tags=["User Favorites"])
+class UserFavoriteDetailView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, shop_pk, *args, **kwargs):
+        deleted, _ = UserFavorite.objects.filter(user=request.user, shop_id=shop_pk).delete()
+        if not deleted:
+            return APIResponse(
+                data=None,
+                message="Favorite not found.",
+                status=404,
+                is_success=False,
+            )
+        return APIResponse(data=None, message="Favorite removed.")
+
+
+@extend_schema(tags=["User History"])
+class UserHistoryView(generics.GenericAPIView):
+    serializer_class = UserHistorySerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        queryset = UserHistory.objects.filter(user=self.request.user).select_related("shop__place__district")
+        if action_name := self.request.query_params.get("action"):
+            queryset = queryset.filter(action=action_name)
+        return queryset
+
+    def get(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_queryset(), many=True)
+        return APIResponse(data=serializer.data, message="History retrieved.")
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        history, created = UserHistory.objects.get_or_create(
+            user=request.user,
+            shop=serializer.validated_data["shop"],
+            action=serializer.validated_data.get("action", UserHistory.HistoryAction.VIEWED),
+            defaults={"last_seen_at": timezone.now()},
+        )
+        if not created:
+            history.visit_count += 1
+            history.last_seen_at = timezone.now()
+            history.save(update_fields=["visit_count", "last_seen_at", "updated_at"])
+        return APIResponse(
+            data=self.get_serializer(history).data,
+            message="History added." if created else "History updated.",
+            status=201 if created else 200,
+        )
+
+
+@extend_schema(tags=["User History"])
+class UserHistoryDetailView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, pk, *args, **kwargs):
+        deleted, _ = UserHistory.objects.filter(user=request.user, pk=pk).delete()
+        if not deleted:
+            return APIResponse(
+                data=None,
+                message="History entry not found.",
+                status=404,
+                is_success=False,
+            )
+        return APIResponse(data=None, message="History entry removed.")
+
+
+@extend_schema(tags=["User History"])
+class UserHistoryClearView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, *args, **kwargs):
+        UserHistory.objects.filter(user=request.user).delete()
+        return APIResponse(data=None, message="History cleared.")
 
 
 # ---------------------------------------------------------------------------
