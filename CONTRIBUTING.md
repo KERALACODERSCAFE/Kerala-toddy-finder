@@ -3,10 +3,10 @@
 Thank you for your interest in contributing to the Kerala Toddy Finder project! We welcome contributions from everyone. Below are guidelines to help you get started.
 
 ## Requirements
-- Python 3.x
-- Django 3.x
-- Node.js 14.x or higher
-- npm 6.x or higher
+- **Python** 3.12 or higher (`requires-python` in `toddy_shop_backend/pyproject.toml`)
+- **Django** 6.0 or higher (declared in `pyproject.toml`; `requirements.txt` pins exact versions)
+- **Node.js** 20.9 or higher (Next.js 16 engine requirement)
+- **npm** 9 or higher recommended (typical for current Node 20+ installs)
 
 ## Setup Instructions
 ### Django Backend (Docker-First Setup)
@@ -43,10 +43,12 @@ The backend uses **Docker** and **PostGIS** to handle geographical data correctl
    ```bash
    npm install
    ```
-3. Start the frontend server:
+3. Start the development server:
    ```bash
-   npm start
+   npm run dev
    ```
+
+   For a production build locally, run `npm run build` then `npm start` (`next start`).
 
 ## Code Standards
 - **Python**: Follow [PEP 8](https://www.python.org/dev/peps/pep-0008/). We use `flake8` for linting and `pre-commit` hooks to ensure standards are met before committing.

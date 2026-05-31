@@ -35,6 +35,7 @@ class UserRoleAdmin(admin.ModelAdmin):
 @admin.register(Status)
 class StatusAdmin(admin.ModelAdmin):
     list_display = ["id", "name"]
+    search_fields = ["name"]
 
 
 @admin.register(District)
@@ -53,6 +54,7 @@ class PlaceAdmin(admin.ModelAdmin):
 @admin.register(ShopCategory)
 class ShopCategoryAdmin(admin.ModelAdmin):
     list_display = ["id", "name"]
+    search_fields = ["name"]
 
 
 @admin.register(FoodCategory)

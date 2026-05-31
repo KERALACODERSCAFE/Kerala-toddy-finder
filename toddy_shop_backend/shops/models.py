@@ -1,8 +1,6 @@
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 
-from shared.models import TimeStampMixin
-
 from core.models import (
     Facility,
     FoodItem,
@@ -16,6 +14,7 @@ from core.models import (
     Status,
     User,
 )
+from shared.models import TimeStampMixin
 
 
 class ToddyShop(TimeStampMixin):

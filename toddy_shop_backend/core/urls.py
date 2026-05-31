@@ -29,5 +29,6 @@ urlpatterns = [
     ),
     path("auth/me/", views.MeView.as_view(), name="auth-me"),
     # Lookup data
+    path("health/", views.HealthCheckView.as_view(), name="health-check"),
     path("", include(router.urls)),
 ]

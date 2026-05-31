@@ -1,159 +1,68 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { STATS, LEADERBOARD } from "@/lib/constants";
+import { Search } from "lucide-react";
 
 export function HeroSection() {
-  const sectionRef = useRef<HTMLElement>(null);
-  const [showArrow, setShowArrow] = useState(true);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const rect = sectionRef.current.getBoundingClientRect();
-      // Hide arrow once user scrolls past 60% of the hero
-      setShowArrow(rect.bottom > window.innerHeight * 0.4);
-    };
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToNext = () => {
-    if (!sectionRef.current) return;
-    const next = sectionRef.current.nextElementSibling as HTMLElement | null;
-    if (next) {
-      next.scrollIntoView({ behavior: "smooth" });
-    }
-  };
-
   return (
-    <section ref={sectionRef} className="relative min-h-[720px] flex items-center text-white overflow-hidden py-20 px-8">
-      {/* Kerala background image */}
+    <section className="relative flex min-h-[640px] items-center overflow-hidden px-4 pb-10 pt-28 text-white sm:min-h-[720px] sm:px-6 sm:pt-32 lg:min-h-[840px] lg:px-10">
       <Image
-        src="/kerala-hero.png"
-        alt="Kerala backwaters at golden hour"
+        src="/hero-bg-mobile.jpg"
+        alt="Aerial view of Kerala landscape"
         fill
         priority
-        className="object-cover object-center"
+        className="object-cover object-center md:hidden"
         sizes="100vw"
       />
-      {/* Green overlay — matches reference design */}
-      <div className="absolute inset-0 bg-[#1a3a1a]/70" />
+      <Image
+        src="/hero-bg.jpg"
+        alt="Aerial view of Kerala landscape"
+        fill
+        priority
+        className="hidden object-cover object-center md:block"
+        sizes="100vw"
+      />
+      <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/30 to-black/35 md:from-black/60 md:via-black/30 md:to-black/45" />
+      <div className="absolute inset-0 bg-[#022612]/40" />
 
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 relative z-10">
-        {/* Hero Left */}
-        <div className="flex flex-col justify-center">
-          <div className="inline-flex bg-secondary-container/20 text-secondary-container px-4 py-1 rounded-full text-[13px] font-bold tracking-wider w-fit mb-6 border border-secondary-container/30">
-            Kerala&apos;s First Verified Finder
-          </div>
-          <h1 className="font-[family-name:var(--font-heading)] text-5xl md:text-6xl leading-tight mb-4 font-semibold">
-            Discover<br />
-            <span className="text-secondary-container">Authentic</span><br />
-            Toddy Shops
+      <div className="relative z-10 mx-auto w-full max-w-[1240px]">
+        <div className="max-w-[620px]">
+          <span className="mb-5 inline-flex rounded-full border border-white/20 bg-white/95 px-3 py-1 text-[12px] font-bold tracking-[0.14em] text-emerald-900 shadow-sm sm:mb-6 sm:px-4 sm:py-1.5 sm:text-[11px]">
+          God&apos;s Own Country
+          </span>
+
+          <h1 className="font-[family-name:var(--font-body)] text-[34px] font-extrabold leading-[1.12] drop-shadow-sm sm:text-[42px] md:text-[52px]">
+            Discover Authentic
+            <br />
+            Toddy Shops Across
+            <br />
+            Kerala.
           </h1>
-          <p className="opacity-90 mb-12 text-lg">
-            Find the best toddy shops near you — verified, rated, and loved by the community.
+
+          <p className="mt-3 max-w-[460px] text-sm font-semibold text-white/90 sm:text-base">
+            കേരളത്തിലെ മികച്ച കള്ളുഷാപ്പുകൾ എളുപ്പത്തിൽ കണ്ടെത്താം.
           </p>
 
-          {/* Search Card */}
-          <div className="bg-white rounded-2xl p-4 shadow-xl flex flex-col md:flex-row gap-4 max-w-2xl text-on-surface">
-            <div className="flex-1 md:border-r border-stone-100 pr-4">
-              <label className="block text-[13px] font-bold tracking-wider text-stone-500 mb-1 px-3">
-                Search
-              </label>
-              <div className="flex items-center px-3">
-                <span className="material-symbols-outlined text-primary mr-2">search</span>
-                <input
-                  className="w-full border-none focus:ring-0 p-0 placeholder-stone-400 bg-transparent outline-none"
-                  placeholder="Shop name or location..."
-                  type="text"
-                />
-              </div>
-            </div>
-            <div className="flex-1 md:border-r border-stone-100 pr-4">
-              <label className="block text-[13px] font-bold tracking-wider text-stone-500 mb-1 px-3">
-                District
-              </label>
-              <select className="w-full border-none focus:ring-0 p-0 bg-transparent outline-none cursor-pointer">
-                <option>All Districts</option>
-                <option>Alappuzha</option>
-                <option>Kottayam</option>
-                <option>Thrissur</option>
-              </select>
-            </div>
-            <div className="flex-1 pr-4">
-              <label className="block text-[13px] font-bold tracking-wider text-stone-500 mb-1 px-3">
-                Food
-              </label>
-              <select className="w-full border-none focus:ring-0 p-0 bg-transparent outline-none cursor-pointer">
-                <option>Signature Dishes</option>
-                <option>Karimeen Pollichathu</option>
-                <option>Kappa &amp; Meen Curry</option>
-              </select>
-            </div>
-            <button className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-xl font-bold flex items-center justify-center transition-all cursor-pointer">
-              Search
+          <p className="mt-2 max-w-[500px] text-xs text-white/80 sm:text-sm">
+            Find trusted, local toddy spots near you.
+          </p>
+
+          <div className="mt-6 flex w-full max-w-[420px] items-center rounded-lg border border-white/20 bg-white p-1.5 shadow-xl sm:mt-7">
+            <Search size={17} className="mx-2 shrink-0 text-zinc-400" />
+            <input
+              type="text"
+              placeholder="Search for shop, places..."
+              className="h-9 w-full bg-transparent pr-2 text-sm text-zinc-900 placeholder:text-zinc-400 focus:outline-none"
+            />
+            <button
+              className="flex h-9 w-9 items-center justify-center rounded-md bg-emerald-700 text-white transition hover:bg-emerald-600"
+              aria-label="Search toddy shops"
+            >
+              <Search size={15} />
             </button>
           </div>
         </div>
-
-        {/* Hero Right: Stats & Leaderboard */}
-        <div className="hidden lg:flex flex-col gap-8">
-          <div className="grid grid-cols-2 gap-4">
-            {STATS.map((stat) => (
-              <div
-                key={stat.label}
-                className="bg-white/10 backdrop-blur-md border border-white/20 p-6 rounded-2xl"
-              >
-                <div className="text-3xl font-[family-name:var(--font-heading)] text-secondary-container font-semibold">
-                  {stat.value}
-                </div>
-                <div className="text-[13px] font-bold tracking-wider opacity-70">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          {/* Leaderboard */}
-          <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6">
-            <h3 className="font-[family-name:var(--font-heading)] text-xl mb-4 flex items-center gap-2 font-medium">
-              <span className="material-symbols-outlined text-secondary-container">
-                military_tech
-              </span>
-              Top Rated This Week
-            </h3>
-            <div className="space-y-4">
-              {LEADERBOARD.map((shop) => (
-                <div
-                  key={shop.name}
-                  className="flex justify-between items-center bg-white/5 p-3 rounded-xl"
-                >
-                  <span>{shop.name}</span>
-                  <span className="text-secondary-container font-bold">
-                    {shop.rating} ★
-                  </span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
       </div>
-
-      {/* Scroll-down arrow — fixed, fades out as user scrolls past hero */}
-      <button
-        onClick={scrollToNext}
-        aria-label="Scroll to next section"
-        className={`fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] flex flex-col items-center gap-1 group cursor-pointer transition-all duration-500 ${showArrow ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"}`}
-      >
-        <span className="text-[11px] font-bold tracking-[3px] uppercase text-white/50 group-hover:text-white/80 transition-colors">
-          Explore
-        </span>
-        <span className="hero-scroll-arrow material-symbols-outlined text-[32px] text-[#ffb148] group-hover:text-white transition-colors">
-          expand_more
-        </span>
-      </button>
     </section>
   );
 }

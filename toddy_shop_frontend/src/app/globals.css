@@ -1,5 +1,5 @@
 @import "tailwindcss";
-
+@import "leaflet/dist/leaflet.css";
 @theme inline {
   /* Colors from DESIGN.md */
   --color-surface: #fcf9f8;

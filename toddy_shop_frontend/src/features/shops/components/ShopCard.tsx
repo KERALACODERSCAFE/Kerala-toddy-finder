@@ -17,7 +17,7 @@ interface Shop {
 export function ShopCard({ shop }: { shop: Shop }) {
   return (
     <div className="group bg-white border border-tertiary-fixed rounded-2xl overflow-hidden hover:shadow-lg transition-all duration-300 cursor-pointer">
-      <div className="relative h-48">
+      <Link href={`/shops/${shop.id}`} className="block relative h-48">
         <Image
           src={shop.image}
           alt={shop.alt}
@@ -45,12 +45,14 @@ export function ShopCard({ shop }: { shop: Shop }) {
             {shop.badge}
           </div>
         )}
-      </div>
+      </Link>
       <div className="p-5">
         <div className="flex justify-between items-start mb-2">
-          <h4 className="font-[family-name:var(--font-heading)] text-xl text-primary font-bold">
-            {shop.name}
-          </h4>
+          <Link href={`/shops/${shop.id}`}>
+            <h4 className="font-[family-name:var(--font-heading)] text-xl text-primary font-bold hover:underline">
+              {shop.name}
+            </h4>
+          </Link>
           <span className="text-secondary font-bold">{shop.rating} ★</span>
         </div>
         <p className="text-stone-500 text-sm mb-4">{shop.district}</p>

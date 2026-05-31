@@ -1,7 +1,8 @@
 import logging
+
+from django.core.exceptions import ValidationError as DjangoValidationError
 from django.http import Http404
 from rest_framework.views import exception_handler
-from django.core.exceptions import ValidationError as DjangoValidationError
 
 logger = logging.getLogger(__name__)
 

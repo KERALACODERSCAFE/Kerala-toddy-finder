@@ -1,8 +1,8 @@
 from django.shortcuts import get_object_or_404
+from drf_spectacular.utils import extend_schema
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework.views import APIView
-from drf_spectacular.utils import extend_schema
 
 from core.models import Status
 from shared.permissions import IsAdmin, IsShopOwner, IsShopOwnerOrAdmin

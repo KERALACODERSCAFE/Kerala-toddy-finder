@@ -12,9 +12,22 @@ dependencies = [
     "django-filter>=24.0",
     "Pillow>=11.0.0",
     "drf-spectacular>=0.29.0",
-    "whitenoise>=6.0.0",
+    "whitenoise>=6.9.0",
+    "gunicorn>=23.0.0",
     "psycopg[binary]>=3.1.18",
+    "django-import-export>=4.4.0"
 ]
+
+[tool.ruff]
+line-length = 119
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "C4"]
+ignore = ["E501"]  # Line length is handled by black/formatter
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
 
 [tool.black]
 line-length = 119
