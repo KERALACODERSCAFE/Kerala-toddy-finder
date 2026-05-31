@@ -28,9 +28,7 @@ from .models import (
 
 class ShopLicenseSerializer(serializers.ModelSerializer):
     license_type_detail = LicenseTypeSerializer(source="license_type", read_only=True)
-    license_status_display = serializers.CharField(
-        source="get_license_status_display", read_only=True
-    )
+    license_status_display = serializers.CharField(source="get_license_status_display", read_only=True)
 
     class Meta:
         model = ShopLicense
@@ -49,9 +47,7 @@ class ShopLicenseSerializer(serializers.ModelSerializer):
 
 class ShopFoodItemSerializer(serializers.ModelSerializer):
     food_item_name = serializers.CharField(source="food_item.name", read_only=True)
-    food_category_name = serializers.CharField(
-        source="food_item.food_category.name", read_only=True
-    )
+    food_category_name = serializers.CharField(source="food_item.food_category.name", read_only=True)
 
     class Meta:
         model = ShopFoodItem
@@ -221,9 +217,9 @@ class ToddyShopDetailSerializer(serializers.ModelSerializer):
         return {r["rating_type__name"]: round(r["avg"], 1) for r in rows}
 
     def get_is_favorited(self, obj):
-        user = self.context.get("request").user
-        if user.is_authenticated:
-            return obj.favorited_by.filter(user=user).exists()
+        request = self.context.get("request")
+        if request and request.user and request.user.is_authenticated:
+            return obj.favorited_by.filter(user=request.user).exists()
         return False
 
 
