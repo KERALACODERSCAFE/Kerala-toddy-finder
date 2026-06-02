@@ -21,6 +21,8 @@ from .models import (
     ReviewCategory,
     ShopCategory,
     Status,
+    UserFavorite,
+    UserProfile,
     UserRole,
 )
 from .serializers import (
@@ -37,6 +39,8 @@ from .serializers import (
     ReviewCategorySerializer,
     ShopCategorySerializer,
     StatusSerializer,
+    UserFavoriteSerializer,
+    UserProfileSerializer,
     UserRoleSerializer,
     UserSerializer,
 )
@@ -97,6 +101,97 @@ class MeView(generics.RetrieveAPIView):
     def retrieve(self, request, *args, **kwargs):
         serializer = self.get_serializer(self.get_object())
         return APIResponse(data=serializer.data, message="Profile retrieved.")
+
+
+@extend_schema(tags=["User Profile"])
+class UserProfileView(generics.GenericAPIView):
+    serializer_class = UserProfileSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_object(self):
+        profile, _ = UserProfile.objects.select_related("user", "preferred_district").get_or_create(
+            user=self.request.user
+        )
+        return profile
+
+    def get(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_object())
+        return APIResponse(data=serializer.data, message="User profile retrieved.")
+
+    def post(self, request, *args, **kwargs):
+        if UserProfile.objects.filter(user=request.user).exists():
+            return APIResponse(
+                data=None,
+                message="User profile already exists. Use PUT or PATCH to update it.",
+                status=400,
+                is_success=False,
+            )
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        profile = serializer.save(user=request.user)
+        return APIResponse(
+            data=self.get_serializer(profile).data,
+            message="User profile created.",
+            status=201,
+        )
+
+    def put(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_object(), data=request.data)
+        serializer.is_valid(raise_exception=True)
+        profile = serializer.save()
+        return APIResponse(data=self.get_serializer(profile).data, message="User profile updated.")
+
+    def patch(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_object(), data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        profile = serializer.save()
+        return APIResponse(data=self.get_serializer(profile).data, message="User profile updated.")
+
+    def delete(self, request, *args, **kwargs):
+        self.get_object().delete()
+        return APIResponse(data=None, message="User profile deleted.")
+
+
+@extend_schema(tags=["User Favorites"])
+class UserFavoriteView(generics.GenericAPIView):
+    serializer_class = UserFavoriteSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return UserFavorite.objects.filter(user=self.request.user).select_related("shop__place__district")
+
+    def get(self, request, *args, **kwargs):
+        serializer = self.get_serializer(self.get_queryset(), many=True)
+        return APIResponse(data=serializer.data, message="Favorites retrieved.")
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        favorite, created = UserFavorite.objects.get_or_create(
+            user=request.user,
+            shop=serializer.validated_data["shop"],
+        )
+        return APIResponse(
+            data=self.get_serializer(favorite).data,
+            message="Favorite added." if created else "Shop is already in favorites.",
+            status=201 if created else 200,
+        )
+
+
+@extend_schema(tags=["User Favorites"])
+class UserFavoriteDetailView(generics.GenericAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def delete(self, request, shop_pk, *args, **kwargs):
+        deleted, _ = UserFavorite.objects.filter(user=request.user, shop_id=shop_pk).delete()
+        if not deleted:
+            return APIResponse(
+                data=None,
+                message="Favorite not found.",
+                status=404,
+                is_success=False,
+            )
+        return APIResponse(data=None, message="Favorite removed.")
 
 
 # ---------------------------------------------------------------------------
