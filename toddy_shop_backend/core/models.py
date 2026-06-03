@@ -217,7 +217,7 @@ class UserProfile(TimeStampMixin):
 
 class UserFavorite(TimeStampMixin):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="favorites")
-    shop = models.ForeignKey("shops.ToddyShop", on_delete=models.CASCADE, related_name="favorited_by")
+    shop = models.ForeignKey("shops.ToddyShop", on_delete=models.CASCADE, related_name="profile_favorited_by")
 
     class Meta:
         db_table = "user_favorites"
