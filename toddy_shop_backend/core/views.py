@@ -91,7 +91,7 @@ class TokenRefreshAPIView(TokenRefreshView):
 
 
 @extend_schema(tags=["Authentication"])
-class MeView(generics.RetrieveAPIView):
+class MeView(generics.RetrieveUpdateAPIView):
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 
@@ -101,6 +101,14 @@ class MeView(generics.RetrieveAPIView):
     def retrieve(self, request, *args, **kwargs):
         serializer = self.get_serializer(self.get_object())
         return APIResponse(data=serializer.data, message="Profile retrieved.")
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop("partial", False)
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return APIResponse(data=serializer.data, message="Profile updated successfully.")
 
 
 @extend_schema(tags=["User Profile"])
