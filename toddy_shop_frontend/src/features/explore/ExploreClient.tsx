@@ -333,6 +333,10 @@ export default function ExploreClient() {
 
                     setActiveTab("overview");
                 }}
+                onLocateMe={(coords: [number, number]) => {
+                    setActiveCenter(coords);
+                    setActiveShopId(null);
+                }}
             />
 
             {/* FLOATING CONTROLS */}
