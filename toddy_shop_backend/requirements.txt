@@ -1,6 +1,6 @@
 asgiref==3.11.1
 django==6.0.6
-django-environ==0.13.0
+django-environ==0.14.0
 django-filter==25.2
 djangorestframework==3.17.1
 djangorestframework-simplejwt==5.5.1
