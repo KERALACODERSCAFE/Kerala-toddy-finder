@@ -15,7 +15,8 @@ dependencies = [
     "whitenoise>=6.9.0",
     "gunicorn>=23.0.0",
     "psycopg[binary]>=3.1.18",
-    "django-import-export>=4.4.0"
+    "django-import-export>=4.4.0",
+    "django-cors-headers>=4.7.0",
 ]
 
 [tool.ruff]

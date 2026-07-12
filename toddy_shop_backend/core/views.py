@@ -3,6 +3,7 @@ from drf_spectacular.utils import extend_schema
 from rest_framework import generics, permissions, viewsets
 from rest_framework.decorators import action
 from rest_framework_simplejwt.exceptions import InvalidToken, TokenError
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from shared.permissions import IsAdminOrReadOnly
@@ -91,7 +92,43 @@ class TokenRefreshAPIView(TokenRefreshView):
 
 
 @extend_schema(tags=["Authentication"])
+class LogoutView(generics.GenericAPIView):
+    """
+    Blacklists the supplied refresh token, effectively logging the user out.
+
+    The access token continues to work until it naturally expires (1 hour),
+    but no new access tokens can be minted from a blacklisted refresh token.
+
+    Request body: { "refresh": "<refresh_token>" }
+    """
+
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, *args, **kwargs):
+        refresh_token = request.data.get("refresh")
+        if not refresh_token:
+            return APIResponse(
+                data=None,
+                message="Refresh token is required.",
+                status=400,
+                is_success=False,
+            )
+        try:
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+        except TokenError:
+            return APIResponse(
+                data=None,
+                message="Invalid or already expired token.",
+                status=400,
+                is_success=False,
+            )
+        return APIResponse(data=None, message="Successfully logged out.")
+
+
+@extend_schema(tags=["Authentication"])
 class MeView(generics.RetrieveUpdateAPIView):
+
     serializer_class = UserSerializer
     permission_classes = [permissions.IsAuthenticated]
 

@@ -27,6 +27,7 @@ urlpatterns = [
         views.TokenRefreshAPIView.as_view(),
         name="auth-token-refresh",
     ),
+    path("auth/logout/", views.LogoutView.as_view(), name="auth-logout"),
     path("auth/me/", views.MeView.as_view(), name="auth-me"),
     path("profile/", views.UserProfileView.as_view(), name="user-profile"),
     path("favorites/", views.UserFavoriteView.as_view(), name="user-favorites"),
