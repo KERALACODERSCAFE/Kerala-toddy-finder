@@ -103,3 +103,84 @@ class UserDataAPITests(TestCase):
         response = self.client.get("/api/v1/profile/")
 
         self.assertEqual(response.status_code, 401)
+
+
+class AuthFlowTests(TestCase):
+    """Tests for the login → logout JWT blacklist flow and CORS header presence."""
+
+    def setUp(self):
+        self.client = APIClient()
+        self.customer_role = UserRole.objects.create(name="Customer")
+        self.user = User.objects.create_user(
+            username="authuser",
+            password="securepass123",
+            role=self.customer_role,
+        )
+
+    def test_login_returns_access_and_refresh_tokens(self):
+        response = self.client.post(
+            "/api/v1/auth/login/",
+            {"username": "authuser", "password": "securepass123"},
+            format="json",
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertIn("access", response.data["data"])
+        self.assertIn("refresh", response.data["data"])
+
+    def test_logout_blacklists_refresh_token(self):
+        # Step 1: login and get tokens
+        login_resp = self.client.post(
+            "/api/v1/auth/login/",
+            {"username": "authuser", "password": "securepass123"},
+            format="json",
+        )
+        access = login_resp.data["data"]["access"]
+        refresh = login_resp.data["data"]["refresh"]
+
+        # Step 2: logout — should succeed
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {access}")
+        logout_resp = self.client.post(
+            "/api/v1/auth/logout/",
+            {"refresh": refresh},
+            format="json",
+        )
+        self.assertEqual(logout_resp.status_code, 200)
+
+        # Step 3: try to use the blacklisted refresh token — should fail
+        self.client.credentials()
+        refresh_resp = self.client.post(
+            "/api/v1/auth/token/refresh/",
+            {"refresh": refresh},
+            format="json",
+        )
+        self.assertEqual(refresh_resp.status_code, 401)
+
+    def test_logout_without_refresh_token_returns_400(self):
+        login_resp = self.client.post(
+            "/api/v1/auth/login/",
+            {"username": "authuser", "password": "securepass123"},
+            format="json",
+        )
+        access = login_resp.data["data"]["access"]
+        self.client.credentials(HTTP_AUTHORIZATION=f"Bearer {access}")
+
+        response = self.client.post("/api/v1/auth/logout/", {}, format="json")
+        self.assertEqual(response.status_code, 400)
+
+    def test_logout_requires_authentication(self):
+        response = self.client.post(
+            "/api/v1/auth/logout/",
+            {"refresh": "sometoken"},
+            format="json",
+        )
+        self.assertEqual(response.status_code, 401)
+
+    def test_cors_allow_all_origins_in_debug(self):
+        """In DEBUG mode (test runner sets DEBUG=True) an arbitrary Origin should
+        get an Access-Control-Allow-Origin response header."""
+        response = self.client.get(
+            "/api/v1/health/",
+            HTTP_ORIGIN="http://localhost:3000",
+        )
+        self.assertIn("Access-Control-Allow-Origin", response)
+
