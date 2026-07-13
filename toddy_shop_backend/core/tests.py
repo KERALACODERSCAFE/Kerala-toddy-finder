@@ -183,4 +183,3 @@ class AuthFlowTests(TestCase):
             HTTP_ORIGIN="http://localhost:3000",
         )
         self.assertIn("Access-Control-Allow-Origin", response)
-
