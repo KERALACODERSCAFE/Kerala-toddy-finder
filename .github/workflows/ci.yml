@@ -10,16 +10,16 @@ jobs:
   lint-and-validate:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    
+
     steps:
     - uses: actions/checkout@v7
-    
+
     - name: Set up Python 3.12
       uses: actions/setup-python@v6
       with:
         python-version: "3.12"
         cache: 'pip'
-        
+
     - name: Install System Dependencies (GDAL/GEOS)
       run: |
         sudo apt-get update
@@ -30,13 +30,61 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r toddy_shop_backend/requirements.txt
         pip install ruff black pre-commit
-        
+
     - name: Run Ruff (Linter)
       run: ruff check .
-      
+
     - name: Run Black (Formatter Check)
       run: black --check .
 
     - name: Run Django System Check
       working-directory: ./toddy_shop_backend
       run: python manage.py check
+
+  test:
+    name: Django Test Suite
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    services:
+      postgres:
+        image: postgis/postgis:16-3.4
+        env:
+          POSTGRES_DB: toddy_finder_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+    steps:
+    - uses: actions/checkout@v7
+
+    - name: Set up Python 3.12
+      uses: actions/setup-python@v6
+      with:
+        python-version: "3.12"
+        cache: 'pip'
+
+    - name: Install System Dependencies (GDAL/GEOS)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends gdal-bin binutils libproj-dev gcc
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r toddy_shop_backend/requirements.txt
+
+    - name: Run tests
+      working-directory: ./toddy_shop_backend
+      env:
+        DATABASE_URL: postgis://postgres:postgres@localhost:5432/toddy_finder_test
+        SECRET_KEY: ci-only-insecure-secret-key-do-not-use-in-production
+        DEBUG: "True"
+        ALLOWED_HOSTS: "localhost,127.0.0.1"
+      run: python manage.py test --verbosity=2
