@@ -1,0 +1,105 @@
+{
+    "Navbar": {
+        "menu": "മെനു",
+        "openMenu": "മെനു തുറക്കുക",
+        "closeMenu": "മെനു അടയ്ക്കുക",
+        "search": "തിരയുക",
+        "profile": "പ്രൊഫൈൽ",
+        "logoAlt": "ടോഡി ഫൈൻഡർ ലോഗോ",
+        "links": {
+            "home": "ഹോം",
+            "exploreMap": "മാപ്പിൽ കാണുക",
+            "districts": "ജില്ലകൾ",
+            "community": "കമ്മ്യൂണിറ്റി",
+            "about": "ഞങ്ങളെക്കുറിച്ച്"
+        }
+    },
+    "LanguageToggle": {
+        "label": "ഭാഷ മാറ്റുക"
+    },
+    "Hero": {
+        "badge": "ദൈവത്തിന്റെ സ്വന്തം നാട്",
+        "titleLine1": "കേരളത്തിലുടനീളമുള്ള മികച്ച",
+        "titleLine2": "കള്ളുഷാപ്പുകൾ കണ്ടെത്തൂ.",
+        "titleLine3": "",
+        "descriptionMalayalam": "കേരളത്തിലെ മികച്ച കള്ളുഷാപ്പുകൾ എളുപ്പത്തിൽ കണ്ടെത്താം.",
+        "descriptionEnglish": "നിങ്ങളുടെ സമീപത്തുള്ള വിശ്വസനീയമായ കള്ളുഷാപ്പുകൾ കണ്ടെത്തൂ.",
+        "searchPlaceholder": "ഷാപ്പുകളോ സ്ഥലങ്ങളോ തിരയൂ...",
+        "searchAria": "കള്ളുഷാപ്പുകൾ തിരയുക"
+    },
+    "DistrictExplorer": {
+        "headingPrefix": "ജില്ല തിരിച്ച്",
+        "headingHighlight": "കണ്ടെത്തൂ.",
+        "subtitle": "നിങ്ങളുടെ ജില്ല തിരഞ്ഞെടുത്ത് സമീപത്തുള്ള മികച്ച ഷാപ്പുകൾ കണ്ടെത്തൂ.",
+        "viewAll": "എല്ലാം കാണുക",
+        "previous": "മുമ്പത്തേത്",
+        "next": "അടുത്തത്",
+        "popular": "ജനപ്രിയം",
+        "ourVillage": "നമ്മുടെ ഗ്രാമം",
+        "ratingText": "സ്ഥിരീകരിച്ച റിവ്യൂകളും ഭക്ഷണ നിലവാരവും അടിസ്ഥാനമാക്കിയാണ് ഈ റേറ്റിംഗ്.",
+        "rating": "റേറ്റിംഗ്",
+        "shops": "ഷാപ്പുകൾ",
+        "topRating": "മികച്ച റേറ്റിംഗ്",
+        "showing": "ആകെ {total} ജില്ലകളിൽ {start} മുതൽ {end} വരെ കാണിക്കുന്നു"
+    },
+    "FeaturedBest": {
+        "headingPrefix": "മികച്ച",
+        "headingHighlight": "തിരഞ്ഞെടുപ്പുകൾ.",
+        "subtitle": "Lorem ipsum dolor sit amet.",
+        "findYourPlace": "നിങ്ങളുടെ പ്രിയപ്പെട്ട സ്ഥലം കണ്ടെത്തൂ.",
+        "browseAll": "മികച്ച ഷാപ്പുകൾ കണ്ടെത്തൂ."
+    },
+    "InteractiveMap": {
+        "headingPrefix": "മാപ്പിലൂടെ",
+        "headingHighlight": "കണ്ടെത്താം.",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra aliquet elit. Curabitur egestas interdum leo, sed finibus enim ultrices ac. Cras quam nisl, aliquet.",
+        "joinCommunity": "കമ്മ്യൂണിറ്റിയിൽ ചേരൂ",
+        "howItWorks": "ഇത് എങ്ങനെ പ്രവർത്തിക്കുന്നു?"
+    },
+    "Footer": {
+        "copyright": "© 2026, കേരള കോഡേഴ്സ് കഫേ",
+        "warning": "മദ്യപാനം ആരോഗ്യത്തിന് ഹാനികരമാണ്. സുരക്ഷിതരായിരിക്കുക: മദ്യപിച്ച് വാഹനമോടിക്കരുത്.",
+        "logoAlt": "കേരള കോഡേഴ്സ് കഫേ ലോഗോ",
+        "links": {
+            "home": "ഹോം",
+            "explore": "കൂടുതൽ കാണുക",
+            "blog": "ബ്ലോഗ്",
+            "community": "കമ്മ്യൂണിറ്റി",
+            "privacy": "സ്വകാര്യത",
+            "terms": "നിബന്ധനകൾ"
+        }
+    },
+    "Community": {
+        "hero": {
+            "badge": "നമ്മുടെ പൈതൃകം",
+            "title": "കായലുകളുടെ ആത്മാവ്",
+            "description": "ഷാപ്പിന്റെ പൈതൃകവും രുചികളും കണ്ടെത്താൻ ഒരുമിച്ച ഒരു സമൂഹം.",
+            "exploreButton": "കണ്ടെത്തലുകൾ കാണൂ"
+        },
+        "sidebar": {
+            "hubExplorer": "പൈതൃക യാത്ര",
+            "hubSubtitle": "പശ്ചിമഘട്ടത്തിന്റെ ആഴങ്ങളിലേക്ക്",
+            "topConnoisseurs": "സജീവ അംഗങ്ങൾ",
+            "contributions": "സംഭാവനകൾ",
+            "culinaryTraditions": "നാടൻ രുചികൾ",
+            "heritageMap": "പൈതൃക മാപ്പ്",
+            "communityStories": "നമ്മുടെ കഥകൾ",
+            "archivalPhotos": "പഴയ ചിത്രങ്ങൾ",
+            "memberPerks": "മെമ്പർ ഓഫറുകൾ"
+        },
+        "stories": {
+            "title": "ഷാപ്പുകളുടെ കഥകൾ",
+            "viewAll": "എല്ലാം കാണുക"
+        },
+        "gallery": {
+            "title": "പ്രത്യേക വിഭവങ്ങൾ",
+            "subtitle": "ഈ ആഴ്ച സമൂഹം തിരഞ്ഞെടുത്ത മികച്ച വിഭവങ്ങൾ"
+        },
+        "cta": {
+            "title": "നമ്മുടെ കൂട്ടായ്മയിൽ ചേരൂ",
+            "description": "ഒരു സന്ദർശകനായി മാത്രം നിൽക്കാതെ ഈ പൈതൃക യാത്രയുടെ ഭാഗമാകൂ.",
+            "registerButton": "മെമ്പറാകൂ",
+            "learnButton": "കൂടുതൽ അറിയാൻ"
+        }
+    }
+}

@@ -1,25 +1,26 @@
-export function InteractiveMapSection() {
+import { getTranslations } from "next-intl/server";
+
+export async function InteractiveMapSection() {
+  const t = await getTranslations("InteractiveMap");
   return (
     <section className="py-24 px-8 max-w-7xl mx-auto flex flex-col lg:flex-row items-center gap-12 lg:gap-20">
       {/* Left Side */}
       <div className="w-full lg:w-[35%] flex flex-col gap-6">
         <h2 className="font-[family-name:var(--font-heading)] text-5xl lg:text-[54px] font-semibold leading-[1.1] text-on-surface">
-          Explore the <br />
-          interactive <span className="text-primary">Map.</span>
+          {t("headingPrefix")}{" "}
+          <span className="text-emerald-700">{t("headingHighlight")}</span>
         </h2>
         <p className="text-stone-500 text-[15px] leading-relaxed">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra 
-          aliquet elit. Curabitur egestas interdum leo, sed finibus enim ultrices ac. 
-          Cras quam nisl, aliquet.
+          {t("description")}
         </p>
         <div className="flex flex-col gap-3 mt-4">
           <button className="bg-primary text-white px-8 py-[18px] rounded-xl font-bold text-[15px] hover:shadow-lg hover:-translate-y-0.5 transition-all cursor-pointer flex items-center justify-center gap-3 w-full">
             <span className="material-symbols-outlined text-xl">group</span>
-            Join Community
+            {t("joinCommunity")}
           </button>
           <button className="border-2 border-stone-200 text-stone-700 bg-white px-8 py-[18px] rounded-xl font-bold text-[15px] hover:bg-stone-50 hover:border-stone-300 transition-all cursor-pointer flex items-center justify-center gap-3 w-full">
             <span className="material-symbols-outlined text-xl">location_on</span>
-            How it Works
+            {t("howItWorks")}
           </button>
         </div>
       </div>

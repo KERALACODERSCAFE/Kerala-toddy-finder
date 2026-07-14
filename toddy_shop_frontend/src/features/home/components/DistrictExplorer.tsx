@@ -1,6 +1,7 @@
 "use client";
 import Image from "next/image";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import keralaPaths from "./kerala-paths.json";
 const DISTRICTS = keralaPaths.map((p) => p.name).sort();
 const MOCK_SHOPS = [
@@ -9,6 +10,7 @@ const MOCK_SHOPS = [
     { id: 3, title: "Heritage", rating: "4.2", tags: "Family Dining" },
 ];
 export function DistrictExplorer() {
+    const t = useTranslations("DistrictExplorer");
     const [activeDistrict, setActiveDistrict] = useState("Alappuzha");
     const [hoveredDistrict, setHoveredDistrict] = useState<string | null>(null);
     const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
@@ -93,7 +95,7 @@ export function DistrictExplorer() {
                             </span>{" "}
                             <span className="text-xs font-bold mt-1 px-2 py-1 bg-sky-50 text-sky-500 rounded-md">
                                 {" "}
-                                150 Shops{" "}
+                                150 {t("shops")}{" "}
                             </span>{" "}
                             {/* Tooltip Arrow */}{" "}
                             <div className="absolute bottom-[-6.5px] left-1/2 transform -translate-x-1/2 w-3 h-3 bg-white border-b-2 border-r-2 border-sky-500 rotate-45"></div>{" "}
@@ -124,13 +126,12 @@ export function DistrictExplorer() {
                         {" "}
                         <h2 className="font-[family-name:var(--font-heading)] text-5xl font-semibold text-on-surface mb-3">
                             {" "}
-                            Explore by{" "}
-                            <span className="text-primary">District.</span>{" "}
+                            {t("headingPrefix")}{" "}
+                            <span className="text-[#006a4e]">{t("headingHighlight")}</span>{" "}
                         </h2>{" "}
                         <p className="text-stone-500 font-medium">
                             {" "}
-                            choose your district and find best shops
-                            nearby.{" "}
+                            {t("subtitle")}{" "}
                         </p>{" "}
                     </div>{" "}
                     <div className="flex flex-col gap-4">
@@ -166,12 +167,12 @@ export function DistrictExplorer() {
                                             </span>{" "}
                                             <span className="text-xs text-stone-400 font-medium mt-1">
                                                 {" "}
-                                                12 Top Rating • 150 Shops{" "}
+                                                12 {t("topRating")} • 150 {t("shops")}{" "}
                                             </span>{" "}
                                         </div>{" "}
                                         <button className="bg-primary text-white px-5 py-2 rounded-lg text-xs font-bold flex items-center gap-2 hover:bg-primary/90 transition-colors">
                                             {" "}
-                                            View all{" "}
+                                            {t("viewAll")}{" "}
                                             <span className="material-symbols-outlined text-[14px]">
                                                 {" "}
                                                 arrow_forward{" "}
@@ -198,10 +199,11 @@ export function DistrictExplorer() {
                                                             alt="Shop"
                                                             fill
                                                             className="object-cover group-hover:scale-105 transition-transform duration-500"
+                                                            sizes="240px"
                                                         />{" "}
                                                         <div className="absolute top-3 right-3 bg-red-500 text-white text-[10px] font-bold px-2 py-1 rounded">
                                                             {" "}
-                                                            Popular{" "}
+                                                            {t("popular")}{" "}
                                                         </div>{" "}
                                                     </div>{" "}
                                                     <div className="p-4">
@@ -221,14 +223,11 @@ export function DistrictExplorer() {
                                                         </div>{" "}
                                                         <span className="text-xs text-stone-500 bg-stone-100 px-2 py-1 rounded-md mb-3 inline-block">
                                                             {" "}
-                                                            our Village{" "}
+                                                            {t("ourVillage")}{" "}
                                                         </span>{" "}
                                                         <p className="text-[11px] text-stone-400 leading-tight mb-4">
                                                             {" "}
-                                                            The overall rating
-                                                            is based on verified
-                                                            reviews and food
-                                                            quality.{" "}
+                                                            {t("ratingText")}{" "}
                                                         </p>{" "}
                                                         <div className="flex items-center justify-between pt-3 border-t border-stone-100">
                                                             {" "}
@@ -241,7 +240,7 @@ export function DistrictExplorer() {
                                                                 {
                                                                     shop.rating
                                                                 }{" "}
-                                                                Rating{" "}
+                                                                {t("rating")}{" "}
                                                             </span>{" "}
                                                             <span className="text-[10px] text-stone-400 font-bold uppercase tracking-wider">
                                                                 {" "}
@@ -263,12 +262,11 @@ export function DistrictExplorer() {
                             {" "}
                             <span className="text-sm text-stone-500 font-medium">
                                 {" "}
-                                Showing {page * ITEMS_PER_PAGE + 1} to{" "}
-                                {Math.min(
-                                    (page + 1) * ITEMS_PER_PAGE,
-                                    DISTRICTS.length,
-                                )}{" "}
-                                of {DISTRICTS.length} Districts{" "}
+                                {t("showing", {
+                                    start: page * ITEMS_PER_PAGE + 1,
+                                    end: Math.min((page + 1) * ITEMS_PER_PAGE, DISTRICTS.length),
+                                    total: DISTRICTS.length
+                                })}{" "}
                             </span>{" "}
                             <div className="flex gap-2">
                                 {" "}
@@ -284,7 +282,7 @@ export function DistrictExplorer() {
                                         {" "}
                                         arrow_back{" "}
                                     </span>{" "}
-                                    Previous{" "}
+                                    {t("previous")}{" "}
                                 </button>{" "}
                                 <button
                                     onClick={() =>
@@ -296,7 +294,7 @@ export function DistrictExplorer() {
                                     className={`px-4 py-2 rounded-lg text-sm font-semibold transition-colors flex items-center gap-2 ${page === totalPages - 1 ? "bg-stone-50 text-stone-300 cursor-not-allowed" : "bg-white border border-stone-200 text-stone-600 hover:bg-stone-50 hover:text-primary"}`}
                                 >
                                     {" "}
-                                    Next{" "}
+                                    {t("next")}{" "}
                                     <span className="material-symbols-outlined text-[18px]">
                                         {" "}
                                         arrow_forward{" "}

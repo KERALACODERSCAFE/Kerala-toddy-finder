@@ -94,9 +94,9 @@ export const HERO_IMAGE =
   "https://lh3.googleusercontent.com/aida-public/AB6AXuA7hQSo-glyhnWGrSVVspUK-yP5wIrztW6IGfAHL4YQzWUANgWieJh6UpuJdihoQXNyuRzuHnTmy2FqKtGdOv3UcZyOl7IRKJkkHsnHZUFB_gn3Ux6LZ5qbb2UYxPWsF5i1taiMyPBh5bOWWgsnLR0dXkpm6y-Hv6zmGfIb1TMWET03HLsibBfn_5lrs4kELTtHzH6cuq-jgCHUnfPYG5hsrPUrsw9ja-JDju0td52-2rwSx_kjq8sIb5X23ZCOdgngGOMNRgwfP8A";
 
 export const SIDEBAR_NAV = [
-  { icon: "flatware", label: "Culinary Traditions", active: true },
-  { icon: "map", label: "Heritage Map", active: false },
-  { icon: "history_edu", label: "Community Stories", active: false },
-  { icon: "photo_library", label: "Archival Photos", active: false },
-  { icon: "stars", label: "Member Perks", active: false },
+  { icon: "flatware", id: "culinaryTraditions", active: true },
+  { icon: "map", id: "heritageMap", active: false },
+  { icon: "history_edu", id: "communityStories", active: false },
+  { icon: "photo_library", id: "archivalPhotos", active: false },
+  { icon: "stars", id: "memberPerks", active: false },
 ] as const;
