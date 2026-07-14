@@ -1,6 +1,10 @@
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export function MobileNav() {
+  const tNav = useTranslations("Navbar");
+  const tFoot = useTranslations("Footer");
+
   return (
     <nav className="md:hidden fixed bottom-0 left-0 w-full flex justify-around items-center h-16 px-4 bg-cream/95 backdrop-blur-md border-t border-cream-border shadow-[0_-4px_12px_rgba(30,86,49,0.05)] z-50">
       <Link
@@ -14,7 +18,7 @@ export function MobileNav() {
           home
         </span>
         <span className="text-xs font-semibold font-[family-name:var(--font-heading)]">
-          Home
+          {tNav("links.home")}
         </span>
       </Link>
       <Link
@@ -23,7 +27,7 @@ export function MobileNav() {
       >
         <span className="material-symbols-outlined">explore</span>
         <span className="text-xs font-semibold font-[family-name:var(--font-heading)]">
-          Explore
+          {tFoot("links.explore")}
         </span>
       </Link>
       <Link
@@ -32,7 +36,7 @@ export function MobileNav() {
       >
         <span className="material-symbols-outlined">forum</span>
         <span className="text-xs font-semibold font-[family-name:var(--font-heading)]">
-          Community
+          {tNav("links.community")}
         </span>
       </Link>
       <Link
@@ -41,7 +45,7 @@ export function MobileNav() {
       >
         <span className="material-symbols-outlined">person</span>
         <span className="text-xs font-semibold font-[family-name:var(--font-heading)]">
-          Profile
+          {tNav("profile")}
         </span>
       </Link>
     </nav>

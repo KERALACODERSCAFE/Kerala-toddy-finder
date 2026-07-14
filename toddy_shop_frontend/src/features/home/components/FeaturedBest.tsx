@@ -1,14 +1,17 @@
 import Image from "next/image";
+import { getTranslations } from "next-intl/server";
 
-export function FeaturedBest() {
+export async function FeaturedBest() {
+  const t = await getTranslations("FeaturedBest");
   return (
     <section className="py-24 px-8 max-w-7xl mx-auto">
       <div className="mb-10">
         <h2 className="font-[family-name:var(--font-heading)] text-5xl font-semibold text-on-surface mb-3">
-          Featured <span className="text-primary">Best.</span>
+          {t("headingPrefix")}{" "}
+          <span className="text-[#ffb148]">{t("headingHighlight")}</span>
         </h2>
         <p className="text-stone-500 font-medium">
-          Lorem ipsum dolor sit amet.
+          {t("subtitle")}
         </p>
       </div>
 
@@ -20,6 +23,7 @@ export function FeaturedBest() {
             alt="Mullapanthal Shaap" 
             fill 
             className="object-cover group-hover:scale-105 transition-transform duration-700"
+            sizes="(max-width: 1024px) 100vw, 50vw"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
           <div className="absolute bottom-0 left-0 p-8 w-full">
@@ -98,9 +102,9 @@ export function FeaturedBest() {
 
           {/* Bottom Right Green Block */}
           <div className="bg-[#005a30] rounded-3xl p-8 flex flex-col justify-center items-center text-center cursor-pointer hover:bg-[#004a28] transition-colors group">
-            <h4 className="text-white text-xl font-bold mb-2">Find your place.</h4>
+            <h4 className="text-white text-xl font-bold mb-2">{t("findYourPlace")}</h4>
             <p className="text-white/80 text-sm leading-relaxed mb-6">
-              Browse all top places establishments.
+              {t("browseAll")}
             </p>
             <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center group-hover:scale-110 transition-transform shadow-md">
               <span className="material-symbols-outlined text-[#005a30]">arrow_forward</span>

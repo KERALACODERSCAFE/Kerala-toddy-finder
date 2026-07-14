@@ -13,7 +13,10 @@ export const metadata = {
         "Heritage stories, culinary traditions, and community discoveries from Kerala's toddy shop culture.",
 };
 
-export default function CommunityPage() {
+import { getTranslations } from "next-intl/server";
+
+export default async function CommunityPage() {
+    const t = await getTranslations("Community");
     return (
         <div className="bg-cream">
             <main className="max-w-7xl mx-auto px-8 pb-10">
@@ -22,22 +25,18 @@ export default function CommunityPage() {
                     <div className="flex-1 space-y-4">
                         <div className="inline-flex bg-secondary-container/10 px-4 py-1 leaf-chip border border-secondary-container/20">
                             <span className="text-[13px] font-bold tracking-wider text-secondary uppercase">
-                                The Heritage Hub
+                                {t("hero.badge")}
                             </span>
                         </div>
                         <h1 className="font-[family-name:var(--font-heading)] text-5xl font-semibold text-primary leading-tight">
-                            The Soul of the Backwaters
+                            {t("hero.title")}
                         </h1>
                         <p className="text-lg text-on-surface-variant max-w-xl leading-relaxed">
-                            Welcome to Shaap, a community-driven initiative
-                            dedicated to chronicling and preserving the
-                            authentic culinary traditions of Kerala. From hidden
-                            backwater gems to generational recipes, discover the
-                            heart of our culture.
+                            {t("hero.description")}
                         </p>
                         <div className="pt-4">
                             <button className="bg-primary-container text-white px-8 py-3 text-[13px] font-bold tracking-wider rounded-lg active:scale-95 transition-transform cursor-pointer">
-                                EXPLORE DISCOVERIES
+                                {t("hero.exploreButton")}
                             </button>
                         </div>
                     </div>
@@ -60,15 +59,15 @@ export default function CommunityPage() {
                         {/* Hub Explorer */}
                         <div className="p-6 bg-white/50 rounded-xl border border-outline-variant">
                             <h3 className="font-[family-name:var(--font-heading)] text-2xl font-medium text-primary mb-1">
-                                Hub Explorer
+                                {t("sidebar.hubExplorer")}
                             </h3>
                             <p className="text-[13px] font-bold tracking-wider text-on-surface-variant opacity-70 mb-6 uppercase">
-                                Deep in the Western Ghats
+                                {t("sidebar.hubSubtitle")}
                             </p>
                             <nav className="space-y-1">
                                 {SIDEBAR_NAV.map((item) => (
                                     <a
-                                        key={item.label}
+                                        key={item.id}
                                         href="#"
                                         className={`flex items-center gap-3 p-3 font-[family-name:var(--font-heading)] text-sm cursor-pointer ${
                                             item.active
@@ -79,7 +78,7 @@ export default function CommunityPage() {
                                         <span className="material-symbols-outlined">
                                             {item.icon}
                                         </span>
-                                        {item.label}
+                                        {t(`sidebar.${item.id}`)}
                                     </a>
                                 ))}
                             </nav>
@@ -88,7 +87,7 @@ export default function CommunityPage() {
                         {/* Top Connoisseurs */}
                         <div className="p-6 bg-white rounded-xl border border-outline-variant shadow-sm">
                             <h4 className="font-[family-name:var(--font-heading)] text-2xl font-medium text-primary mb-4">
-                                Top Connoisseurs
+                                {t("sidebar.topConnoisseurs")}
                             </h4>
                             <div className="space-y-4">
                                 {TOP_CONNOISSEURS.map((person) => (
@@ -116,7 +115,7 @@ export default function CommunityPage() {
                                             </p>
                                             <p className="text-[11px] text-on-surface-variant font-semibold">
                                                 {person.contributions}{" "}
-                                                Contributions
+                                                {t("sidebar.contributions")}
                                             </p>
                                         </div>
                                     </div>
@@ -131,10 +130,10 @@ export default function CommunityPage() {
                         <section>
                             <div className="flex justify-between items-center mb-6">
                                 <h2 className="font-[family-name:var(--font-heading)] text-4xl font-semibold text-primary">
-                                    Heritage Stories
+                                    {t("stories.title")}
                                 </h2>
                                 <button className="text-secondary text-[13px] font-bold tracking-wider flex items-center gap-1 hover:underline cursor-pointer">
-                                    VIEW ALL
+                                    {t("stories.viewAll")}
                                     <span className="material-symbols-outlined text-sm">
                                         arrow_forward
                                     </span>
@@ -199,11 +198,10 @@ export default function CommunityPage() {
                             <div className="flex items-center justify-between mb-8">
                                 <div>
                                     <h2 className="font-[family-name:var(--font-heading)] text-4xl font-semibold text-primary">
-                                        Signature Dish Gallery
+                                        {t("gallery.title")}
                                     </h2>
                                     <p className="text-on-surface-variant">
-                                        This Week&apos;s Best Dishes as rated by
-                                        the community
+                                        {t("gallery.subtitle")}
                                     </p>
                                 </div>
                             </div>
@@ -259,20 +257,17 @@ export default function CommunityPage() {
                             <div className="absolute top-0 right-0 w-64 h-64 bg-white/5 rounded-full -translate-y-1/2 translate-x-1/2" />
                             <div className="relative z-10 text-center max-w-2xl mx-auto space-y-6">
                                 <h2 className="font-[family-name:var(--font-heading)] text-4xl font-semibold text-white">
-                                    Join the Circle
+                                    {t("cta.title")}
                                 </h2>
                                 <p className="text-lg text-on-primary-container/80 leading-relaxed">
-                                    Be more than a visitor. Become a guardian of
-                                    our culinary heritage. Share your
-                                    discoveries, rate traditional shops, and
-                                    help us preserve the soul of the backwaters.
+                                    {t("cta.description")}
                                 </p>
                                 <div className="flex flex-col sm:flex-row gap-4 justify-center pt-4">
                                     <button className="bg-white text-primary text-[13px] font-bold tracking-wider px-8 py-3 rounded-lg hover:shadow-lg transition-shadow cursor-pointer">
-                                        REGISTER AS MEMBER
+                                        {t("cta.registerButton")}
                                     </button>
                                     <button className="border border-white/30 text-white text-[13px] font-bold tracking-wider px-8 py-3 rounded-lg hover:bg-white/10 transition-colors cursor-pointer">
-                                        LEARN OUR MISSION
+                                        {t("cta.learnButton")}
                                     </button>
                                 </div>
                             </div>

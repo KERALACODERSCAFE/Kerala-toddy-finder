@@ -1,0 +1,167 @@
+{
+    "Navbar": {
+        "menu": "Menu",
+        "openMenu": "Open menu",
+        "closeMenu": "Close menu",
+        "search": "Search",
+        "profile": "Profile",
+        "logoAlt": "Toddy finder logo",
+        "links": {
+            "home": "Home",
+            "exploreMap": "Explore Map",
+            "districts": "Districts",
+            "community": "Community",
+            "about": "About"
+        }
+    },
+    "LanguageToggle": {
+        "label": "Switch language"
+    },
+    "Hero": {
+        "badge": "God's Own Country",
+        "titleLine1": "Discover Authentic",
+        "titleLine2": "Toddy Shops Across",
+        "titleLine3": "Kerala.",
+        "descriptionMalayalam": "കേരളത്തിലെ മികച്ച കള്ളുഷാപ്പുകൾ എളുപ്പത്തിൽ കണ്ടെത്താം.",
+        "descriptionEnglish": "Find trusted, local toddy spots near you.",
+        "searchPlaceholder": "Search for shop, places...",
+        "searchAria": "Search toddy shops"
+    },
+    "DistrictExplorer": {
+        "headingPrefix": "Explore by",
+        "headingHighlight": "District.",
+        "subtitle": "choose your district and find best shops nearby.",
+        "viewAll": "View all",
+        "previous": "Previous",
+        "next": "Next",
+        "popular": "Popular",
+        "ourVillage": "our Village",
+        "ratingText": "The overall rating is based on verified reviews and food quality.",
+        "rating": "Rating",
+        "shops": "Shops",
+        "topRating": "Top Rating",
+        "showing": "Showing {start} to {end} of {total} Districts"
+    },
+    "FeaturedBest": {
+        "headingPrefix": "Featured",
+        "headingHighlight": "Best.",
+        "subtitle": "Lorem ipsum dolor sit amet.",
+        "findYourPlace": "Find your place.",
+        "browseAll": "Browse all top places establishments."
+    },
+    "InteractiveMap": {
+        "headingPrefix": "Explore the",
+        "headingHighlight": "interactive Map.",
+        "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra aliquet elit. Curabitur egestas interdum leo, sed finibus enim ultrices ac. Cras quam nisl, aliquet.",
+        "joinCommunity": "Join Community",
+        "howItWorks": "How it Works"
+    },
+    "Footer": {
+        "copyright": "© 2026, Kerala Coder Cafe",
+        "warning": "Consumption of alcohol is injurious to health and “Be safe: Don’t drink and drive”",
+        "logoAlt": "Kerala Coder Cafe Logo",
+        "links": {
+            "home": "Home",
+            "explore": "Explore",
+            "blog": "Blog",
+            "community": "Community",
+            "privacy": "Privacy",
+            "terms": "TnC"
+        }
+    },
+    "Community": {
+        "hero": {
+            "badge": "The Heritage Hub",
+            "title": "The Soul of the Backwaters",
+            "description": "Welcome to Shaap, a community-driven initiative dedicated to chronicling and preserving the authentic culinary traditions of Kerala. From hidden backwater gems to generational recipes, discover the heart of our culture.",
+            "exploreButton": "EXPLORE DISCOVERIES"
+        },
+        "sidebar": {
+            "hubExplorer": "Hub Explorer",
+            "hubSubtitle": "Deep in the Western Ghats",
+            "topConnoisseurs": "Top Connoisseurs",
+            "contributions": "Contributions",
+            "culinaryTraditions": "Culinary Traditions",
+            "heritageMap": "Heritage Map",
+            "communityStories": "Community Stories",
+            "archivalPhotos": "Archival Photos",
+            "memberPerks": "Member Perks"
+        },
+        "stories": {
+            "title": "Heritage Stories",
+            "viewAll": "VIEW ALL"
+        },
+        "gallery": {
+            "title": "Signature Dish Gallery",
+            "subtitle": "This Week's Best Dishes as rated by the community"
+        },
+        "cta": {
+            "title": "Join the Circle",
+            "description": "Be more than a visitor. Become a guardian of our culinary heritage. Share your discoveries, rate traditional shops, and help us preserve the soul of the backwaters.",
+            "registerButton": "REGISTER NOW",
+            "learnButton": "LEARN MORE"
+        }
+    },
+    "About": {
+        "hero": {
+            "title": "The Heritage of the Shaap",
+            "tagline": "Preserving Kerala’s toddy culture and culinary traditions."
+        },
+        "story": {
+            "title": "Our Story",
+            "content": "For generations, the local toddy shop (Shappu) has been the beating heart of Kerala's villages. It is where communities gather after a long day in the backwaters, where generational recipes for spicy duck roast and fiery fish curries are perfected, and where stories are shared over freshly tapped sweet toddy. We built this platform to ensure these cultural landmarks are celebrated and preserved."
+        },
+        "mission": {
+            "title": "Our Mission",
+            "discover": {
+                "title": "Discover Authenticity",
+                "content": "Mapping hidden gems from Kuttanad to Kasaragod."
+            },
+            "document": {
+                "title": "Document Heritage",
+                "content": "Archiving signature dishes, local flavors, and regional specialties."
+            },
+            "empower": {
+                "title": "Empower the Community",
+                "content": "Giving food lovers a platform to share their discoveries and memories."
+            }
+        },
+        "community": {
+            "title": "Become a Guardian of Heritage",
+            "content": "This platform grows through your memories. Share a review, upload a photograph of an old Shaap, or recommend a signature dish."
+        }
+    },
+    "Blog": {
+        "hero": {
+            "title": "Heritage Stories",
+            "subtitle": "Chronicles of culture, culinary secrets, and community memories from the backwaters."
+        },
+        "articles": {
+            "article1": {
+                "title": "The Story Behind Kerala's Toddy Culture: From Palm to Glass",
+                "tag": "Culture",
+                "readTime": "5 min read"
+            },
+            "article2": {
+                "title": "Hidden Toddy Shops Worth Visiting in Kuttanad",
+                "tag": "Travel",
+                "readTime": "8 min read"
+            },
+            "article3": {
+                "title": "Dishes That Define the Shaap Experience: Duck Roast & Kappa",
+                "tag": "Culinary",
+                "readTime": "6 min read"
+            },
+            "article4": {
+                "title": "Community Memories: Tales from Old Shaaps",
+                "tag": "Community",
+                "readTime": "4 min read"
+            },
+            "article5": {
+                "title": "Regional Flavours: North vs South Kerala",
+                "tag": "Culinary",
+                "readTime": "7 min read"
+            }
+        }
+    }
+}
