@@ -31,6 +31,8 @@ export const metadata: Metadata = {
         "Discover authentic Kerala toddy shop experiences — where tradition meets taste.",
 };
 
+import { MobileNav } from "@/components/layout/MobileNav";
+
 export default async function RootLayout({
     children,
 }: Readonly<{
@@ -60,8 +62,9 @@ export default async function RootLayout({
             <body className="min-h-screen flex flex-col">
                 <NextIntlClientProvider locale={locale} messages={messages}>
                     <Navbar />
-                    <main className="flex-1">{children}</main>
+                    <main className="flex-1 pb-16 md:pb-0">{children}</main>
                     <Footer />
+                    <MobileNav />
                 </NextIntlClientProvider>
             </body>
         </html>

@@ -78,7 +78,6 @@ export default async function CommunityPage() {
                                         <span className="material-symbols-outlined">
                                             {item.icon}
                                         </span>
-                                        {/* @ts-expect-error - id is typed securely but dynamic key access isn't perfect in TS */}
                                         {t(`sidebar.${item.id}`)}
                                     </a>
                                 ))}

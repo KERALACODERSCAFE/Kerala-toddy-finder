@@ -15,7 +15,7 @@ export async function Footer() {
     ];
 
     return (
-        <footer className="bg-[#006A4E] text-white w-full px-5 md:px-10 py-5 md:min-h-[200px] flex items-center justify-center ">
+        <footer className="bg-[#006A4E] text-white w-full px-5 md:px-10 pt-5 pb-20 md:py-5 md:min-h-[200px] flex items-center justify-center ">
             <div className="max-w-[1440px] w-full mx-auto ">
                 {/* Top section */}
                 <div className="flex flex-col md:flex-row items-center  justify-between gap-5 md:gap-8">

@@ -98,8 +98,70 @@
         "cta": {
             "title": "Join the Circle",
             "description": "Be more than a visitor. Become a guardian of our culinary heritage. Share your discoveries, rate traditional shops, and help us preserve the soul of the backwaters.",
-            "registerButton": "REGISTER AS MEMBER",
-            "learnButton": "LEARN OUR MISSION"
+            "registerButton": "REGISTER NOW",
+            "learnButton": "LEARN MORE"
+        }
+    },
+    "About": {
+        "hero": {
+            "title": "The Heritage of the Shaap",
+            "tagline": "Preserving Kerala’s toddy culture and culinary traditions."
+        },
+        "story": {
+            "title": "Our Story",
+            "content": "For generations, the local toddy shop (Shappu) has been the beating heart of Kerala's villages. It is where communities gather after a long day in the backwaters, where generational recipes for spicy duck roast and fiery fish curries are perfected, and where stories are shared over freshly tapped sweet toddy. We built this platform to ensure these cultural landmarks are celebrated and preserved."
+        },
+        "mission": {
+            "title": "Our Mission",
+            "discover": {
+                "title": "Discover Authenticity",
+                "content": "Mapping hidden gems from Kuttanad to Kasaragod."
+            },
+            "document": {
+                "title": "Document Heritage",
+                "content": "Archiving signature dishes, local flavors, and regional specialties."
+            },
+            "empower": {
+                "title": "Empower the Community",
+                "content": "Giving food lovers a platform to share their discoveries and memories."
+            }
+        },
+        "community": {
+            "title": "Become a Guardian of Heritage",
+            "content": "This platform grows through your memories. Share a review, upload a photograph of an old Shaap, or recommend a signature dish."
+        }
+    },
+    "Blog": {
+        "hero": {
+            "title": "Heritage Stories",
+            "subtitle": "Chronicles of culture, culinary secrets, and community memories from the backwaters."
+        },
+        "articles": {
+            "article1": {
+                "title": "The Story Behind Kerala's Toddy Culture: From Palm to Glass",
+                "tag": "Culture",
+                "readTime": "5 min read"
+            },
+            "article2": {
+                "title": "Hidden Toddy Shops Worth Visiting in Kuttanad",
+                "tag": "Travel",
+                "readTime": "8 min read"
+            },
+            "article3": {
+                "title": "Dishes That Define the Shaap Experience: Duck Roast & Kappa",
+                "tag": "Culinary",
+                "readTime": "6 min read"
+            },
+            "article4": {
+                "title": "Community Memories: Tales from Old Shaaps",
+                "tag": "Community",
+                "readTime": "4 min read"
+            },
+            "article5": {
+                "title": "Regional Flavours: North vs South Kerala",
+                "tag": "Culinary",
+                "readTime": "7 min read"
+            }
         }
     }
 }
