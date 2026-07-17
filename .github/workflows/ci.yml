@@ -10,16 +10,16 @@ jobs:
   lint-and-validate:
     runs-on: ubuntu-latest
     timeout-minutes: 30
-    
+
     steps:
     - uses: actions/checkout@v7
-    
+
     - name: Set up Python 3.12
       uses: actions/setup-python@v6
       with:
         python-version: "3.12"
         cache: 'pip'
-        
+
     - name: Install System Dependencies (GDAL/GEOS)
       run: |
         sudo apt-get update
@@ -30,10 +30,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r toddy_shop_backend/requirements.txt
         pip install ruff black pre-commit
-        
+
     - name: Run Ruff (Linter)
       run: ruff check .
-      
+
     - name: Run Black (Formatter Check)
       run: black --check .
 
