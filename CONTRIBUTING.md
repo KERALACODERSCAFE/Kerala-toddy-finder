@@ -30,7 +30,13 @@ The backend uses **Docker** and **PostGIS** to handle geographical data correctl
    docker-compose exec backend uv run python manage.py migrate
    ```
 
-4. The API will now be available at `http://localhost:8000`.
+4. Collect Static Files:
+   Required to serve static assets properly (like the DRF Browsable API interface) via WhiteNoise.
+   ```bash
+   docker-compose exec backend uv run python manage.py collectstatic --no-input
+   ```
+
+5. The API will now be available at `http://localhost:8000`.
 
 *Note: If you need to add dependencies, run `docker-compose exec backend uv add <package>` and it will automatically update `pyproject.toml` and `uv.lock`.*
 
