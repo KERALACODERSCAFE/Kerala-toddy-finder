@@ -18,19 +18,13 @@ The backend uses **Docker** and **PostGIS** to handle geographical data correctl
    cd Kerala-toddy-finder
    ```
 
-2. Start the Docker environment:
-   This will build the Python image (with GDAL/GEOS) and spin up the PostGIS database.
+2. Set up the development environment:
+   This single command will install `pre-commit` hooks, build the Docker images, run database migrations, and collect static files.
    ```bash
-   docker-compose up -d --build
+   make setup
    ```
 
-3. Run Migrations:
-   Execute commands inside the `backend` container.
-   ```bash
-   docker-compose exec backend uv run python manage.py migrate
-   ```
-
-4. The API will now be available at `http://localhost:8000`.
+3. The API will now be available at `http://localhost:8000`.
 
 *Note: If you need to add dependencies, run `docker-compose exec backend uv add <package>` and it will automatically update `pyproject.toml` and `uv.lock`.*
 

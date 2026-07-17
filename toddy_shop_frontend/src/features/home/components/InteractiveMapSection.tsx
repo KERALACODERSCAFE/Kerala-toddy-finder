@@ -8,8 +8,8 @@ export function InteractiveMapSection() {
           interactive <span className="text-primary">Map.</span>
         </h2>
         <p className="text-stone-500 text-[15px] leading-relaxed">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra 
-          aliquet elit. Curabitur egestas interdum leo, sed finibus enim ultrices ac. 
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra
+          aliquet elit. Curabitur egestas interdum leo, sed finibus enim ultrices ac.
           Cras quam nisl, aliquet.
         </p>
         <div className="flex flex-col gap-3 mt-4">
@@ -37,18 +37,18 @@ export function InteractiveMapSection() {
           {/* Main vertical road */}
           <path d="M 600,0 C 620,150 560,300 650,550" stroke="#cbd5e1" strokeWidth="14" fill="none" strokeLinecap="round" />
           <path d="M 600,0 C 620,150 560,300 650,550" stroke="#f8fafc" strokeWidth="10" fill="none" strokeLinecap="round" />
-          
+
           {/* Side road to Mullapanthal */}
           <path d="M 610,180 C 550,220 480,280 430,260" stroke="#cbd5e1" strokeWidth="10" fill="none" strokeLinecap="round" />
           <path d="M 610,180 C 550,220 480,280 430,260" stroke="#f8fafc" strokeWidth="6" fill="none" strokeLinecap="round" />
-          
+
           {/* Road to Valiyakulam */}
           <path d="M 590,380 C 650,400 700,450 780,480" stroke="#cbd5e1" strokeWidth="10" fill="none" strokeLinecap="round" />
           <path d="M 590,380 C 650,400 700,450 780,480" stroke="#f8fafc" strokeWidth="6" fill="none" strokeLinecap="round" />
         </svg>
 
         {/* Map Markers & Labels */}
-        
+
         {/* Udayamperoor */}
         <div className="absolute top-[12%] left-[45%] lg:left-[50%] flex items-center gap-3 cursor-pointer group">
           <div className="flex flex-col text-right transition-transform group-hover:-translate-x-1">

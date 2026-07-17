@@ -57,7 +57,7 @@ uv run python manage.py loaddata core/fixtures/initial_data.json
 This Ensures the following database has essential default data
 
 
-Or You can run one line command 
+Or You can run one line command
 
 ```bash
 uv run python manage.py migrate && uv run python manage.py loaddata core/fixtures/initial_data.json
