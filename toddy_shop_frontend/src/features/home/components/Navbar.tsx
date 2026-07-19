@@ -8,7 +8,7 @@ export default function Navbar() {
     const navLinks = [
         { name: "Home", href: "/" },
         { name: "Explore Map", href: "/explore" },
-        { name: "Districts", href: "#districts" },
+        { name: "Districts", href: "/#districts" },
         { name: "Community", href: "/community" },
         { name: "About", href: "/about" },
     ];
