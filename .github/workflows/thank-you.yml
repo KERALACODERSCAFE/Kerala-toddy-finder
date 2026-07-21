@@ -19,19 +19,35 @@ jobs:
         with:
           script: |
             const pr = context.payload.pull_request;
+            const creator = pr.user.login;
+            const { owner, repo } = context.repo;
+
+            // Search for merged PRs by this author in this repository
+            const q = `author:${creator} is:pr is:merged repo:${owner}/${repo}`;
+            const searchResult = await github.rest.search.issuesAndPullRequests({ q });
+
+            // Check if there are other merged PRs by this user
+            const hasOtherMergedPRs = searchResult.data.items.some(item => item.number !== pr.number) || searchResult.data.total_count > 1;
 
             const users = [
-              `@${pr.user.login}`,
+              `@${creator}`,
               ...pr.assignees.map(a => `@${a.login}`)
             ];
-
             const tagged_users = [...new Set(users)].join(" ");
 
-            const thankyou_note = 'Your contribution makes Toddy Finder better for everyone! :sparkles: We appreciate your time and dedication keep building and sharing your ideas! :speech_balloon: Your impact matters! :raised_hands:';
+            let message_body = '';
+
+            if (!hasOtherMergedPRs) {
+              // Message for the first merged PR
+              message_body = `${tagged_users}\n\n🎉 Congratulations on your first merged PR! 🚀\n\nWe'd love to recognize your contribution with a Kerala Coders Cafe Contributor Certificate.\n\n📧 If you'd like to receive one, please email keralacoderscafe@gmail.com with:\n\nGitHub Username\nPR Link\nFull Name (for the certificate)\n\nThank you for being part of our open-source community! 💙`;
+            } else {
+              // Message for subsequent merged PRs
+              message_body = `${tagged_users}\n\nThank you for your contribution! 🚀 Your changes have been successfully merged. We appreciate your time and support in making Toddy Finder better for everyone! 💙`;
+            }
 
             await github.rest.issues.createComment({
               issue_number: pr.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: `${tagged_users} ${thankyou_note}`
+              owner: owner,
+              repo: repo,
+              body: message_body
             });
