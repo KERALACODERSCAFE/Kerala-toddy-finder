@@ -1,15 +1,15 @@
-asgiref==3.11.1
-django==6.0.6
+asgiref==3.12.1
+django==6.1
 django-environ==0.14.0
-django-filter==25.2
-djangorestframework==3.17.1
+django-filter==26.1
+djangorestframework==3.18.0
 djangorestframework-simplejwt==5.5.1
 gunicorn==26.0.0
-drf-spectacular==0.29.0
-Pillow==12.2.0
+drf-spectacular==0.30.0
+Pillow==12.3.0
 PyJWT==2.13.0
 sqlparse==0.5.5
-tzdata==2026.2; sys_platform == "win32"
+tzdata==2026.3; sys_platform == "win32"
 whitenoise==6.12.0
 django-cors-headers==4.9.0
 django-import-export==4.4.1
