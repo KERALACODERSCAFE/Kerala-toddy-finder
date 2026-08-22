@@ -4,7 +4,7 @@
 
 Discover authentic Kerala toddy shop experiences where tradition meets taste.
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![GitHub Stars](https://img.shields.io/github/stars/KERALACODERSCAFE/Kerala-toddy-finder?style=social)](https://github.com/KERALACODERSCAFE/Kerala-toddy-finder) [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js)](https://nextjs.org/) [![Django](https://img.shields.io/badge/Django-5.0-092E20?style=flat-square&logo=django)](https://www.djangoproject.com/) [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql)](https://www.postgresql.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) [![GitHub Stars](https://img.shields.io/github/stars/KERALACODERSCAFE/Kerala-toddy-finder?style=social)](https://github.com/KERALACODERSCAFE/Kerala-toddy-finder) [![Next.js](https://img.shields.io/badge/Next.js-16.2.4-black?style=flat-square&logo=next.js)](https://nextjs.org/) [![Django](https://img.shields.io/badge/Django-%E2%89%A56.0.4-092E20?style=flat-square&logo=django)](https://www.djangoproject.com/) [![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-336791?style=flat-square&logo=postgresql)](https://www.postgresql.org/)
 
 <p align="center">
   <a href="https://github.com/keralacoderscafe/kerala-toddy-finder/graphs/contributors">
@@ -38,11 +38,11 @@ Toddy Shop Finder is a centralized, community-driven discovery platform for auth
 ```mermaid
 graph LR
     subgraph Frontend [Client Layer]
-        A[Next.js 15]
+        A[Next.js 16.2.4]
         B[Tailwind CSS]
     end
     subgraph Backend [API/Server Layer]
-        C[Django 5.0]
+        C["Django >=6.0.4"]
         D[Django REST Framework]
     end
     subgraph Database [Storage Layer]
@@ -78,14 +78,14 @@ npm run dev
 
 ### Backend Setup
 
-```bash
-# Navigate to the backend directory
-cd toddy_shop_backend
+The backend uses a Docker-first setup (including PostGIS).
 
-# Configure backend environment (migrations and server run)
-# python manage.py migrate
-# python manage.py runserver
+```bash
+# Set up the development environment (builds Docker images, runs migrations, etc.)
+make setup
 ```
+
+For more detailed backend setup instructions, please see [CONTRIBUTING.md](CONTRIBUTING.md#django-backend-docker-first-setup).
 
 ---
 
@@ -93,7 +93,7 @@ cd toddy_shop_backend
 
 The project is split into separate frontend and backend codebases.
 
-### Frontend (Next.js 15 + Tailwind CSS)
+### Frontend (Next.js 16.2.4 + Tailwind CSS)
 
 ```bash
 toddy_shop_frontend/
@@ -198,7 +198,7 @@ graph LR
 
 ---
 
-## Backend Architecture (Django 5.0 + PostgreSQL)
+## Backend Architecture (Django >=6.0.4 + PostgreSQL)
 
 ```bash
 toddy_shop_backend/
