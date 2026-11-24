@@ -378,10 +378,10 @@ class ShopReviewView(APIView):
                 status=400,
                 is_success=False,
             )
-        published = get_object_or_404(Status, name="Published")
+        pending = get_object_or_404(Status, name="Pending")
         serializer = ShopReviewSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(shop=shop, user=request.user, status=published)
+        serializer.save(shop=shop, user=request.user, status=pending)
         return APIResponse(data=serializer.data, message="Review submitted.", status=201)
 
 
@@ -404,6 +404,13 @@ class ShopReviewDetailView(APIView):
 
     def get(self, request, shop_pk, pk):
         review = self._get_review(shop_pk, pk)
+        if review.status.name != "Published" and review.user != request.user and not request.user.is_admin:
+            return APIResponse(
+                data=None,
+                message="You do not have permission to view this review.",
+                status=403,
+                is_success=False,
+            )
         return APIResponse(
             data=ShopReviewSerializer(review).data,
             message="Review retrieved.",
